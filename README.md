@@ -54,3 +54,4 @@ body-parser deprecated undefined extended: provide extended option server.js:15:
 loading apis
 Express server listening on port 8081
 ```
+then navigate to http://localhost:8081 and input your raml

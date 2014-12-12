@@ -1,0 +1,11 @@
+{
+  "name": "ramlr",
+  "version": "0.0.1",
+  "description": "RAML validator",
+  "main": "server.js",
+  "dependencies": {
+    "express": "4.10.2",
+    "body-parser": "1.10.0",
+    "raml-parser": "0.8.8"
+  }
+}

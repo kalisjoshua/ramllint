@@ -12,11 +12,14 @@ module.exports = function(app){
 
 function validate(req, res){
   var raml = req.body.raml;
-  
+
   parser.load(raml).then(function(data){
     console.log(data);
+
+    res.send(data);
   }, function(error){
     console.log('Error parsing: ' + error);
+
+    res.send('Error parsing: ' + error);
   });
-  res.end();
 }

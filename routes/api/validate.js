@@ -1,6 +1,6 @@
 var path = require('path');
 var fs = require('fs');
-var parser = require('raml-parser');
+var parser = require('raml2obj');
 var _ = require('underscore');
 
 function firstMethod(req, res, next) {

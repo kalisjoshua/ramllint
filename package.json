@@ -4,9 +4,9 @@
   "description": "RAML validator",
   "main": "server.js",
   "dependencies": {
-    "express": "4.10.2",
     "body-parser": "1.10.0",
-    "raml-parser": "0.8.8"
+    "express": "4.10.2",
+    "raml2obj": "^2.0.0",
     "underscore": "1.7.0"
   }
 }

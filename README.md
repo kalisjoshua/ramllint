@@ -17,5 +17,16 @@ npm install
 An example run is setup in the npm scripts.
 
 ```
-npm run drapi
+npm run example
+```
+
+## Using the Linter
+
+```
+var ramllint = require('ramllint'),
+    ramlsrc = require('./project_name/api.raml');
+
+ramllint(ramlsrc, function (results) {
+  // do something with results
+});
 ```

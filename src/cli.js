@@ -11,4 +11,6 @@ filepath = path.resolve(process.argv[2]);
 
 file = fs.readFileSync(filepath, 'utf8');
 
-ramllinter(file);
+ramllinter(file, function (results) {
+  console.log(results);
+});

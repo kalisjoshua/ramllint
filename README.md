@@ -30,3 +30,13 @@ ramllint(ramlsrc, function (results) {
   // do something with results
 });
 ```
+
+## Unit Testing
+
+Making use of [mocha](http://mochajs.org/) for unit testing: `npm test` or
+`mocha -w` to start watching for changes while developing to re-run tests.
+
+### Code Coverage
+
+Making use of [Istanbul](https://github.com/gotwarlost/istanbul) for coverage
+reporting: `npm run coverage` to generate reports in `/coverage`.

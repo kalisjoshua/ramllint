@@ -2,33 +2,32 @@
   "name": "ramllint",
   "version": "0.0.1",
   "description": "RAML Lint",
-
   "author": "Tyler Smith <TylerSmith@quickenloans.com",
   "contributors": [
     "Joshua T Kalis <JoshKalis@quickenloans.com>",
     "Jorden Lowe <JordenLowe@quickenloans.com>"
   ],
-
   "repository": {
     "type": "git",
     "url": "http://git/Galileo/ramllint"
   },
-
   "bugs": {
     "url": "http://git/Galileo/ramllint/issues"
   },
-
   "bin": {
     "ramllint": "./src/cli.js"
   },
-
   "main": "src/ramllint.js",
-
   "dependencies": {
     "raml2obj": "^2.0.0"
   },
-
+  "devDependencies": {
+    "istanbul": "^0.3.13",
+    "mocha": "^2.2.4"
+  },
   "scripts": {
-    "example": "iojs src/cli.js ./examples/drapi/api.raml"
+    "example": "iojs src/cli.js ./examples/drapi/api.raml",
+    "coverage": "istanbul cover _mocha",
+    "test": "mocha -w"
   }
 }

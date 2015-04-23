@@ -1,19 +1,36 @@
-var log = require('./log.js'),
-    parser = require('raml2obj');
+var fs = require('fs'),
+    log = require('./log.js'),
+    parser = require('raml2obj'),
+
+    regex = /\.js$/i,
+    rules = {};
+
+// read in all rules
+fs.readdirSync(__dirname + '/rules')
+  .forEach(function (file) {
+    var rule;
+
+    if (regex.test(file)) {
+      rule = require(__dirname + '/rules/' + file, 'utf8');
+
+      rule.message = '[$] $'
+        .replace('$', file.replace(regex, ''))
+        .replace('$', rule.message);
+
+      if(/root|method|resource/i.test(rule.section)) {
+        if (!rules[rule.section]) {
+          rules[rule.section] = [rule];
+        } else {
+          rules[rule.section].push(rule);
+        }
+      } else {
+        throw new Error('Invalid rule section "$".'.replace('$', rule.section));
+      }
+    }
+  });
 
 (function () {
   "use strict";
-
-  function _Linter(raml, cb) {
-    log.start();
-
-    parser
-      .parse(raml)
-      .then(root_validation, parse_error)
-      .then(function () {
-        cb(log.log('error'));
-      });
-  }
 
   function helper_resource_title(resource) {
     var len = resource.resources ? resource.resources.length : 0;
@@ -21,36 +38,58 @@ var log = require('./log.js'),
     return resource.parentUrl + resource.relativeUri + ' (#)'.replace('#', len);
   }
 
-  function method_validation(method) {
+  function helper_run_rules(section, context) {
+    rules[section]
+      .forEach(function (rule) {
+        if (!rule(context)) {
+          log[rule.level](section, rule.message);
+        }
+      });
+  }
+
+  function lint(raml, cb) {
+    log.start();
+
+    parser
+      .parse(raml)
+      .then(lint_root, parse_error)
+      .then(function () {
+        cb(log.log('error'));
+      });
+  }
+
+  function lint_method(method) {
     log.info(method.method, 'info');
+  }
+
+  function lint_resource(resource) {
+    log.info(helper_resource_title(resource), 'info');
+
+    (resource.methods || [])
+      .forEach(lint_method);
+
+    (resource.resources || [])
+      .forEach(lint_resource);
+  }
+
+  function lint_root(root) {
+    helper_run_rules('root', root);
+
+    if (root.resources) {
+      root.resources
+        .forEach(lint_resource);
+    } else {
+      log.info('root', 'No resources defined.');
+    }
   }
 
   function parse_error(error) {
     log.error('RAML', 'Parse error.');
   }
 
-  function resource_validation(resource) {
-    log.info(helper_resource_title(resource), 'info');
-
-    (resource.methods || [])
-      .forEach(method_validation);
-
-    (resource.resources || [])
-      .forEach(resource_validation);
-  }
-
-  function root_validation(root) {
-    if (root.resources) {
-      root.resources
-        .forEach(resource_validation);
-    } else {
-      log.info('root', 'No resources defined.');
-    }
-  }
-
-  _Linter.log = log.log;
+  lint.log = log.log;
 
   if (typeof exports === 'object' && exports) {
-    module.exports = _Linter;
+    module.exports = lint;
   }
 }());

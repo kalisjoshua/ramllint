@@ -37,13 +37,21 @@
       api[name] = add.bind(null, name);
     });
 
-  api.log = function (all) {
+  api.empty = api.start = function () {
+    results = [];
+  };
 
-    return results
+  api.levels = function () {
+    return levels.slice(0);
+  };
+
+  api.log = function (level) {
+
+    return !level ? results : (results
       .filter(function (entry) {
 
-        return all || entry.level !== 'info';
-      });
+        return level.indexOf(entry.level) !== -1;
+      }));
   };
 
   if (typeof exports === 'object' && exports) {

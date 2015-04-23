@@ -5,11 +5,13 @@ var log = require('./log.js'),
   "use strict";
 
   function _Linter(raml, cb) {
+    log.start();
+
     parser
       .parse(raml)
       .then(root_validation, parse_error)
       .then(function () {
-        cb(log.log(true));
+        cb(log.log('error'));
       });
   }
 
@@ -24,7 +26,7 @@ var log = require('./log.js'),
   }
 
   function parse_error(error) {
-    log.error('root', 'Error parsing: ' + error);
+    log.error('RAML', 'Parse error.');
   }
 
   function resource_validation(resource) {
@@ -38,9 +40,15 @@ var log = require('./log.js'),
   }
 
   function root_validation(root) {
-    root.resources
-      .forEach(resource_validation);
+    if (root.resources) {
+      root.resources
+        .forEach(resource_validation);
+    } else {
+      log.info('root', 'No resources defined.');
+    }
   }
+
+  _Linter.log = log.log;
 
   if (typeof exports === 'object' && exports) {
     module.exports = _Linter;

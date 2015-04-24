@@ -1,6 +1,8 @@
 var fs = require('fs'),
-    log = require('./log.js'),
     parser = require('raml2obj'),
+
+    log = require('./log.js'),
+    typeOf = require('./typeOf.js'),
 
     regex = /\.js$/i,
     rules = {};
@@ -10,6 +12,7 @@ fs.readdirSync(__dirname + '/rules')
   .forEach(function (file) {
     var rule;
 
+    /* istanbul ignore else */
     if (regex.test(file)) {
       rule = require(__dirname + '/rules/' + file, 'utf8');
 
@@ -63,8 +66,8 @@ fs.readdirSync(__dirname + '/rules')
   }
 
   function lint_resource(resource) {
-    log.info(helper_resource_title(resource), 'info');
-
+    helper_run_rules('resource', resource);
+  
     (resource.methods || [])
       .forEach(lint_method);
 
@@ -89,7 +92,8 @@ fs.readdirSync(__dirname + '/rules')
 
   lint.log = log.log;
 
-  if (typeof exports === 'object' && exports) {
+  /* istanbul ignore else */
+  if (typeOf(exports, 'object')) {
     module.exports = lint;
   }
 }());

@@ -37,12 +37,6 @@ fs.readdirSync(__dirname + '/rules')
 (function () {
   "use strict";
 
-  function helper_resource_title(resource) {
-    var len = resource.resources ? resource.resources.length : 0;
-
-    return resource.parentUrl + resource.relativeUri + ' (#)'.replace('#', len);
-  }
-
   function helper_run_rules(section, context) {
     rules[section]
       .forEach(function (rule) {

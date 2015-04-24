@@ -1,15 +1,17 @@
-(function() {
-  function rule(obj){
-    return (/^\/([a-z]+(_[a-z]+)*|{[a-z]+(_[a-z]+)*})$/.test(obj.relativeUri));
-  }
+var typeOf = require('../typeOf.js');
 
-  rule.level = 'error';
+function rule(obj){
 
-  rule.message = 'Each uri resource must be lower case.';
+  return (/^\/([a-z]+(_[a-z]+)*|{[a-z]+(_[a-z]+)*})$/.test(obj.relativeUri));
+}
 
-  rule.section = 'resource';
+rule.level = 'error';
 
-  if (typeof exports === 'object' && exports) {
-    module.exports = rule;
-  }
-}());
+rule.message = 'Each uri resource must be lower case.';
+
+rule.section = 'resource';
+
+/* istanbul ignore else */
+if (typeof(exports, 'object')) {
+  module.exports = rule;
+}

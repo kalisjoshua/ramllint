@@ -1,3 +1,5 @@
+var typeOf = require('./typeOf.js');
+
 (function () {
   "use strict";
 
@@ -54,7 +56,8 @@
       }));
   };
 
-  if (typeof exports === 'object' && exports) {
+  /* istanbul ignore else */
+  if (typeOf(exports, 'object')) {
     module.exports = api;
   }
 }());

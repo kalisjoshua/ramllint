@@ -26,24 +26,21 @@ describe('RAML Linter', function () {
     assert.equal('function', typeof ramllint);
   });
 
-  it('should return an error on invalid RAML', function (done) {
-    ramllint('', function (result) {
+  it('should return an error on invalid RAML', function () {
+    return ramllint('', function (result) {
       assert.deepEqual([{level: 'error', message: 'Parse error.', resource: 'RAML'}], result);
-      done();
     });
   });
 
-  it('should log errors for no resources', function (done) {
-    ramllint(samples.no_resources, function (result) {
+  it('should log errors for no resources', function () {
+    return ramllint(samples.no_resources, function (result) {
       assert.deepEqual([{level: 'info', message: 'No resources defined.', resource: 'root'}], ramllint.log('info'));
-      done();
     });
   });
 
-  it('should lint a minimal document without errors', function (done) {
-    ramllint(samples.minimal, function (result) {
+  it('should lint a minimal document without errors', function () {
+    return ramllint(samples.minimal, function (result) {
       assert.deepEqual([], ramllint.log('error'));
-      done();
     });
   });
 });

@@ -16,8 +16,10 @@ fs.readdirSync(__dirname + '/rules')
     if (regex.test(file)) {
       rule = require(__dirname + '/rules/' + file, 'utf8');
 
+      rule.id = file.replace(regex, '');
+
       rule.message = '[$] $'
-        .replace('$', file.replace(regex, ''))
+        .replace('$', rule.id)
         .replace('$', rule.message);
 
       if(/root|method|resource/i.test(rule.section)) {
@@ -45,7 +47,7 @@ fs.readdirSync(__dirname + '/rules')
     rules[section]
       .forEach(function (rule) {
         if (!rule(context)) {
-          log[rule.level](section, rule.message);
+          log[rule.level](context, rule.message);
         }
       });
   }
@@ -53,16 +55,18 @@ fs.readdirSync(__dirname + '/rules')
   function lint(raml, cb) {
     log.start();
 
-    parser
+    function resolve() {
+      cb(log.log('error'));
+    }
+
+    return parser
       .parse(raml)
       .then(lint_root, parse_error)
-      .then(function () {
-        cb(log.log('error'));
-      });
+      .finally(resolve);
   }
 
   function lint_method(method) {
-    log.info(method.method, 'info');
+    helper_run_rules('method', method);
   }
 
   function lint_resource(resource) {

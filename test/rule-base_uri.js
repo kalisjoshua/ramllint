@@ -16,7 +16,7 @@ describe('Rules - Base URI', function () {
 
   it('should provide a section', function () {
     assert(rule.section);
-    assert(/root|resource|method/i.test(rule.section));
+    assert(/root|resource|method|response/i.test(rule.section));
   });
 
   it('should return true for a valid context', function () {

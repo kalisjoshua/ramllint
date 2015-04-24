@@ -8,11 +8,23 @@ version: 1
   description: info
   get:
     description: collection GET
-
+    responses:
+      200:
+        description: success
   /{id}:
     description: more info
     get:
       description: entity GET
-
-    /sub:
+      responses:
+        200: 
+          description: success
+        400: 
+          description: fail
+    /sub_resource:
       description: Not methods added intentionally for test coverage.
+      get:
+        responses:
+          200: 
+            description: success
+          500: 
+            description: fail

@@ -26,7 +26,7 @@
     "mocha": "^2.2.4"
   },
   "scripts": {
-    "example": "iojs src/cli.js ./examples/drapi/api.raml",
+    "example": "node src/cli.js ./examples/drapi/api.raml",
     "coverage": "istanbul cover _mocha",
     "test": "mocha -w -R dot"
   }

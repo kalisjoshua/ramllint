@@ -66,8 +66,8 @@ fs.readdirSync(__dirname + '/rules')
   }
 
   function lint_resource(resource) {
-    log.info(helper_resource_title(resource), 'info');
-
+    helper_run_rules('resource', resource);
+  
     (resource.methods || [])
       .forEach(lint_method);
 

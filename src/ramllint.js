@@ -38,10 +38,18 @@ fs.readdirSync(__dirname + '/rules')
   "use strict";
 
   function helper_run_rules(section, context) {
+    var location;
+
+    if (section === 'root') {
+      location = section;
+    } else {
+      location = context.resource;
+    }
+
     rules[section]
       .forEach(function (rule) {
         if (!rule(context)) {
-          log[rule.level](context, rule.message);
+          log[rule.level](location, rule.message);
         }
       });
   }
@@ -50,7 +58,7 @@ fs.readdirSync(__dirname + '/rules')
     log.start();
 
     function resolve() {
-      cb(log.log('error'));
+      cb(log('error'));
     }
 
     return parser
@@ -65,7 +73,7 @@ fs.readdirSync(__dirname + '/rules')
 
   function lint_resource(resource) {
     helper_run_rules('resource', resource);
-  
+
     (resource.methods || [])
       .forEach(lint_method);
 
@@ -88,7 +96,7 @@ fs.readdirSync(__dirname + '/rules')
     log.error('RAML', 'Parse error.');
   }
 
-  lint.log = log.log;
+  lint.log = log;
 
   /* istanbul ignore else */
   if (typeOf(exports, 'object')) {

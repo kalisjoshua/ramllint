@@ -3,21 +3,20 @@ var assert = require('assert'),
 
 describe('log', function () {
   it('should be an object', function () {
-    assert.equal('object', typeof log);
+    assert.equal('function', typeof log);
   });
 
   it('should expose methods', function () {
     assert.equal('function', typeof log.error);
     assert.equal('function', typeof log.info);
-    assert.equal('function', typeof log.log);
     assert.equal('function', typeof log.warning);
   });
 
   it('should have an empty log to start', function () {
-    assert.deepEqual([], log.log());
-    assert.deepEqual([], log.log('error'));
-    assert.deepEqual([], log.log('info'));
-    assert.deepEqual([], log.log('warning'));
+    assert.deepEqual([], log());
+    assert.deepEqual([], log('error'));
+    assert.deepEqual([], log('info'));
+    assert.deepEqual([], log('warning'));
   });
 
   beforeEach(function () {
@@ -42,22 +41,22 @@ describe('log', function () {
   it('should capture errors in the log', function () {
     var actual = addEntries(4, 'error');
 
-    assert.deepEqual(actual, log.log('error'));
+    assert.deepEqual(actual, log('error'));
     assert.deepEqual(actual, log.error());
-    assert.deepEqual(actual, log.log());
+    assert.deepEqual(actual, log());
   });
 
   it('should capture info in the log', function () {
     var actual = addEntries(4, 'info');
 
-    assert.deepEqual(actual, log.log('info'));
+    assert.deepEqual(actual, log('info'));
     assert.deepEqual(actual, log.info());
   });
 
   it('should capture warnings in the log', function () {
     var actual = addEntries(4, 'warning');
 
-    assert.deepEqual(actual, log.log('warning'));
+    assert.deepEqual(actual, log('warning'));
     assert.deepEqual(actual, log.warning());
   });
 
@@ -69,8 +68,8 @@ describe('log', function () {
       .concat(addEntries(4, 'info'))
       .concat(addEntries(4, 'warning'));
 
-    assert.deepEqual(actual, log.log('error info warning'));
-    assert.deepEqual(actual, log.log());
+    assert.deepEqual(actual, log('error info warning'));
+    assert.deepEqual(actual, log());
   });
 
   it('should only return desired levels', function () {
@@ -82,7 +81,7 @@ describe('log', function () {
 
     addEntries(4, 'warning');
 
-    assert.deepEqual(actual, log.log('error info'));
+    assert.deepEqual(actual, log('error info'));
   });
 
   it('should only return desired levels', function () {
@@ -94,7 +93,7 @@ describe('log', function () {
 
     addEntries(4, 'info');
 
-    assert.deepEqual(actual, log.log('error warning'));
+    assert.deepEqual(actual, log('error warning'));
   });
 
   it('should only return desired levels', function () {
@@ -106,7 +105,7 @@ describe('log', function () {
 
     addEntries(4, 'error');
 
-    assert.deepEqual(actual, log.log('info warning'));
+    assert.deepEqual(actual, log('info warning'));
   });
 
   it('should provide a list of levels', function () {

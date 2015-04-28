@@ -1,7 +1,7 @@
 var assert = require('assert'),
-    rule = require('../src/rules/api_version.js');
+    rule = require('../src/rules/code_desc.js');
 
-describe('Rules - API Version', function () {
+describe('Rules - Response Code Description', function () {
   it('should be an function', function () {
     assert.equal('function', typeof rule);
   });
@@ -19,8 +19,15 @@ describe('Rules - API Version', function () {
     assert(/root|resource|method|response/i.test(rule.section));
   });
 
-  it('should return true for a valid context', function () {
-    assert.strictEqual(true, rule({version: 1}));
-    assert.strictEqual(false, rule({}));
+  [
+    // GOOD
+    [{code:'200', description:'good'}, true],
+    
+    // BAD
+    [{code:'200'}, false]
+  ].forEach(function(x){
+    it('should return ' + x[1] + ' for response object ' + x[0], function () {
+      assert.strictEqual(x[1], rule(x[0]));
+    });
   });
 });

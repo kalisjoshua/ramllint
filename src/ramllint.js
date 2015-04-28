@@ -22,7 +22,7 @@ fs.readdirSync(__dirname + '/rules')
         .replace('$', rule.id)
         .replace('$', rule.message);
 
-      if(/root|method|resource/i.test(rule.section)) {
+      if(/root|method|resource|response/i.test(rule.section)) {
         if (!rules[rule.section]) {
           rules[rule.section] = [rule];
         } else {
@@ -67,8 +67,18 @@ fs.readdirSync(__dirname + '/rules')
       .finally(resolve);
   }
 
+  function lint_response(code, response) {
+    response.code = code;
+    helper_run_rules('response', response);
+  }
+  
   function lint_method(method) {
     helper_run_rules('method', method);
+
+    Object.keys(method.responses)
+      .forEach(function(x){
+	lint_response(x, method.responses[x]);
+      });
   }
 
   function lint_resource(resource) {

@@ -19,6 +19,8 @@
   },
   "main": "src/ramllint.js",
   "dependencies": {
+    "eslint": "^0.20.0",
+    "jshint": "^2.7.0",
     "raml2obj": "^2.0.0"
   },
   "devDependencies": {
@@ -26,8 +28,10 @@
     "mocha": "^2.2.4"
   },
   "scripts": {
-    "example": "node src/cli.js ./examples/drapi/api.raml",
     "coverage": "istanbul cover _mocha",
-    "test": "mocha -w -R dot"
+    "example": "node src/cli.js ./examples/drapi/api.raml",
+    "hint": "jshint src/**",
+    "lint": "eslint src/**",
+    "test": "mocha -w -R min"
   }
 }

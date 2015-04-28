@@ -1,3 +1,5 @@
+'use strict';
+
 var typeOf = require('../typeOf.js');
 
 // obj will be the context that is needed for validation

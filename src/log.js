@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var typeOf = require('./typeOf.js'),
 
@@ -23,8 +23,9 @@ function add(level, resource, message) {
         resource: resource
       });
   } else {
+
     return results
-      .filter(function (entry) {
+      .filter(function filterResults(entry) {
 
         return entry.level === level;
       });
@@ -34,7 +35,7 @@ function add(level, resource, message) {
 function log(level) {
 
   return !level ? results : (results
-    .filter(function (entry) {
+    .filter(function filterLog(entry) {
 
       return level.indexOf(entry.level) !== -1;
     }));
@@ -42,15 +43,15 @@ function log(level) {
 
 // add methods to public-facing api for each of these
 levels
-  .forEach(function (name) {
+  .forEach(function eachLevel(name) {
     log[name] = add.bind(null, name);
   });
 
-log.empty = log.start = function () {
+log.empty = log.start = function resetLog() {
   results = [];
 };
 
-log.levels = function () {
+log.levels = function getLevels() {
 
   return levels.slice(0);
 };

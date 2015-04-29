@@ -1,3 +1,5 @@
+'use strict';
+
 var typeOf = require('../typeOf.js');
 
 // obj will be the context that is needed for validation
@@ -16,6 +18,6 @@ rule.message = 'RAML file must include a baseUri.';
 rule.section = 'root';
 
 /* istanbul ignore else */
-if (typeof(exports, 'object')) {
+if (typeOf(exports, 'object')) {
   module.exports = rule;
 }

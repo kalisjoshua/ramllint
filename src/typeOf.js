@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var typeOf = (function (global) {
+var typeOf = (function typeOfClosure(global){
   var regex = /\s([a-z]+)/i,
       type = Function.prototype.call.bind(Object.prototype.toString);
 

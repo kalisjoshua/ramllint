@@ -1,3 +1,5 @@
+'use strict';
+
 var typeOf = require('../typeOf.js');
 
 function rule(obj){
@@ -12,6 +14,6 @@ rule.message = 'Each uri resource must be lower case.';
 rule.section = 'resource';
 
 /* istanbul ignore else */
-if (typeof(exports, 'object')) {
+if (typeOf(exports, 'object')) {
   module.exports = rule;
 }

@@ -9,12 +9,12 @@ var assert = require('assert'),
 nothing_log = [
   {
     'level': 'error',
-    'message': '[api_version] RAML file must include a version number.',
+    'message': '[api_version] RAML section (root) must include: version.',
     'resource': 'root'
   },
   {
     'level': 'error',
-    'message': '[base_uri] RAML file must include a baseUri.',
+    'message': '[base_uri] RAML section (root) must include: baseUri.',
     'resource': 'root'
   }
 ];
@@ -50,12 +50,14 @@ describe('RAML Linter', function () {
   });
 
   it('should return an error on invalid RAML', function () {
+    // async
     return ramllint('', function (result) {
       assert.deepEqual([{level: 'error', message: 'Parse error.', resource: 'RAML'}], result);
     });
   });
 
   it('should log errors for empty RAML root', function () {
+    // async
     return ramllint(samples.nothing, function (result) {
       assert.deepEqual(nothing_log, result);
     });
@@ -64,6 +66,7 @@ describe('RAML Linter', function () {
   it('should not list missing version entry in log for nothing.raml', function () {
     appendToRAML('version', '1');
 
+    // async
     return ramllint(nothing_raml_evolution, function (result) {
       assert.deepEqual(nothing_log, result);
     });
@@ -72,12 +75,14 @@ describe('RAML Linter', function () {
   it('should not list missing baseUri entry in log for nothing.raml', function () {
     appendToRAML('baseUri', 'http://example.com');
 
+    // async
     return ramllint(nothing_raml_evolution, function (result) {
       assert.deepEqual(nothing_log, result);
     });
   });
 
   it('should lint a minimal document without errors', function () {
+    // async
     return ramllint(samples.minimal, function (result) {
       assert.deepEqual([], result);
     });

@@ -114,7 +114,7 @@
         "comma-dangle": [2, "never"],
         "comma-spacing": [2, {"before": false, "after": true}],
         "comma-style": 2,
-        "complexity": [0, 11],
+        "complexity": [2, 5],
         "consistent-return": 2,
         "consistent-this": [0, "that"],
         "curly": [2, "all"],

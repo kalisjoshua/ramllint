@@ -2,6 +2,7 @@
 
 var fs = require('fs'),
     path = require('path'),
+
     ramllinter = require('./ramllint.js'),
 
     file,

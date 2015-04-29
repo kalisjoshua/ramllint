@@ -1,0 +1,43 @@
+{
+  "method": [
+    {
+      "id":   "method_desc",
+      "prop": "description",
+      "test": true
+    }
+  ],
+
+  "resource": [
+    {
+      "id":   "resource_desc",
+      "prop": "description",
+      "test": true
+    },
+    {
+      "id":   "url_lower",
+      "prop": "relativeUri",
+      "test": "^\\/([a-z]+(_[a-z]+)*|{[a-z]+(_[a-z]+)*})$"
+    }
+  ],
+
+  "response": [
+    {
+      "id":   "code_desc",
+      "prop": "description",
+      "test": true
+    }
+  ],
+
+  "root": [
+    {
+      "id":   "api_version",
+      "prop": "version",
+      "test": true
+    },
+    {
+      "id":   "base_uri",
+      "prop": "baseUri",
+      "test": true
+    }
+  ]
+}

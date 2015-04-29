@@ -3,25 +3,18 @@
 var parser = require('raml2obj'),
 
     log = require('./log.js'),
-
-    rules = require('./rules.js'),
+    rules = require('./defaults.json'),
     typeOf = require('./typeOf.js');
 
-function helperRunRules(section, context) {
-  var location;
+function errorMessage(section, rule) {
+  var result;
 
-  if (section === 'root') {
-    location = section;
-  } else {
-    location = context.resource;
-  }
+  result = '[$] RAML section ($) must include: $.'
+    .replace('$', rule.id)
+    .replace('$', section)
+    .replace('$', rule.prop);
 
-  rules[section]
-    .forEach(function eachRule(rule) {
-      if (!rule(context)) {
-        log[rule.level](location, rule.message);
-      }
-    });
+  return result;
 }
 
 function lint(raml, cb) {
@@ -38,16 +31,16 @@ function lint(raml, cb) {
 }
 
 function lintMethod(method) {
-  helperRunRules('method', method);
+  runRules('method', method, method.resource);
 
   Object.keys(method.responses)
-    .forEach(function eachMethod(x) {
-      lintResponse(x, method.responses[x]);
+    .forEach(function eachMethod(code) {
+      lintResponse(code, method.responses[code]);
     });
 }
 
 function lintResource(resource) {
-  helperRunRules('resource', resource);
+  runRules('resource', resource, resource.resource);
 
   (resource.methods || [])
     .forEach(lintMethod);
@@ -58,11 +51,11 @@ function lintResource(resource) {
 
 function lintResponse(code, response) {
   response.code = code;
-  helperRunRules('response', response);
+  runRules('response', response, response.resource);
 }
 
 function lintRoot(root) {
-  helperRunRules('root', root);
+  runRules('root', root, 'root');
 
   if (root.resources) {
     root.resources
@@ -74,6 +67,23 @@ function lintRoot(root) {
 
 function parseError() {
   log.error('RAML', 'Parse error.');
+}
+
+function runRules(section, context, ref) {
+  function eachRule(rule) {
+    var value = context[rule.prop];
+
+    if (rule.test) {
+      if (!value || !(new RegExp(rule.regex)).test(value)) {
+        log.error(ref, errorMessage(ref, rule));
+      }
+    } else {
+      log.info(ref, 'skipped ' + errorMessage(ref, rule));
+    }
+  }
+
+  rules[section]
+    .forEach(eachRule);
 }
 
 lint.log = log;

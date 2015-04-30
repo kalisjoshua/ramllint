@@ -1,9 +1,11 @@
 var assert = require('assert'),
-    log = require('../src/log.js');
+    Log = require('../src/log.js'),
+
+    log = new Log();
 
 describe('log', function () {
   it('should be an object', function () {
-    assert.equal('function', typeof log);
+    assert.equal('object', typeof log);
   });
 
   it('should expose methods', function () {
@@ -13,25 +15,39 @@ describe('log', function () {
   });
 
   it('should have an empty log to start', function () {
-    assert.deepEqual([], log());
-    assert.deepEqual([], log('error'));
-    assert.deepEqual([], log('info'));
-    assert.deepEqual([], log('warning'));
+    assert.deepEqual([], log.read());
+    assert.deepEqual([], log.read('error'));
+    assert.deepEqual([], log.read('info'));
+    assert.deepEqual([], log.read('warning'));
+  });
+
+  it('should empty the log', function () {
+    assert.equal(log.read().length, 0);
+
+    log.info('empty', 'Helo', 'arg');
+
+    assert.equal(log.read().length, 1);
+
+    log.empty();
+
+    assert.equal(log.read().length, 0);
   });
 
   beforeEach(function () {
-    log.empty();
+    log = new Log();
   });
 
   function addEntries(count, level) {
     var result = [];
 
     while (count--) {
-      log[level]('/endpoint', 'has ' + level);
+      log[level]('/endpoint', 'has ' + level, {id: 'fake_entry'});
+
       result.push({
         level: level,
         message: 'has ' + level,
-        resource: '/endpoint'
+        resource: '/endpoint',
+        rule: 'fake_entry'
       });
     }
 
@@ -41,23 +57,20 @@ describe('log', function () {
   it('should capture errors in the log', function () {
     var actual = addEntries(4, 'error');
 
-    assert.deepEqual(actual, log('error'));
-    assert.deepEqual(actual, log.error());
-    assert.deepEqual(actual, log());
+    assert.deepEqual(actual, log.read('error'));
+    assert.deepEqual(actual, log.read());
   });
 
   it('should capture info in the log', function () {
     var actual = addEntries(4, 'info');
 
-    assert.deepEqual(actual, log('info'));
-    assert.deepEqual(actual, log.info());
+    assert.deepEqual(actual, log.read('info'));
   });
 
   it('should capture warnings in the log', function () {
     var actual = addEntries(4, 'warning');
 
-    assert.deepEqual(actual, log('warning'));
-    assert.deepEqual(actual, log.warning());
+    assert.deepEqual(actual, log.read('warning'));
   });
 
   it('should capture all levels of entries', function () {
@@ -68,8 +81,8 @@ describe('log', function () {
       .concat(addEntries(4, 'info'))
       .concat(addEntries(4, 'warning'));
 
-    assert.deepEqual(actual, log('error info warning'));
-    assert.deepEqual(actual, log());
+    assert.deepEqual(actual, log.read('error info warning'));
+    assert.deepEqual(actual, log.read());
   });
 
   it('should only return desired levels', function () {
@@ -81,7 +94,7 @@ describe('log', function () {
 
     addEntries(4, 'warning');
 
-    assert.deepEqual(actual, log('error info'));
+    assert.deepEqual(actual, log.read('error info'));
   });
 
   it('should only return desired levels', function () {
@@ -93,7 +106,7 @@ describe('log', function () {
 
     addEntries(4, 'info');
 
-    assert.deepEqual(actual, log('error warning'));
+    assert.deepEqual(actual, log.read('error warning'));
   });
 
   it('should only return desired levels', function () {
@@ -105,10 +118,16 @@ describe('log', function () {
 
     addEntries(4, 'error');
 
-    assert.deepEqual(actual, log('info warning'));
+    assert.deepEqual(actual, log.read('info warning'));
   });
 
   it('should provide a list of levels', function () {
     assert.deepEqual(['error', 'warning', 'info'], log.levels());
+  });
+
+  it('should throw errors when arguments are omitted', function () {
+    assert.throws(function () {
+      log.info();
+    });
   });
 });

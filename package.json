@@ -19,12 +19,12 @@
   },
   "main": "src/ramllint.js",
   "dependencies": {
-    "eslint": "^0.20.0",
-    "jshint": "^2.7.0",
     "raml2obj": "^2.0.0"
   },
   "devDependencies": {
+    "eslint": "^0.20.0",
     "istanbul": "^0.3.13",
+    "jshint": "^2.7.0",
     "mocha": "^2.2.4"
   },
   "scripts": {
@@ -32,7 +32,7 @@
     "example": "node src/cli.js ./examples/drapi/api.raml",
     "hint": "jshint src/**.js",
     "lint": "eslint src/**.js",
-    "quality": "npm run test && npm run lint && npm run coverage",
+    "quality": "npm run lint && npm run coverage",
     "test": "mocha",
     "test-w": "npm test -- -R min -w"
   }

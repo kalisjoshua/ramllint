@@ -2,8 +2,10 @@
 
 var typeOf = require('./typeOf.js'),
 
-    levels,
-    results = [];
+    errorMessage,
+    levels;
+
+errorMessage = 'Missing argument(s) calling log.$(); $ args passed, 3 needed.';
 
 levels = [
   'error',
@@ -11,52 +13,57 @@ levels = [
   'info'
 ];
 
-/** Add a log entry to the 'results' collection in a consistent way.
-  TODO: add more description and follow documentation format
-  */
-function add(level, resource, message) {
-  if (resource && message) {
-    results
-      .push({
-        level: level,
-        message: message,
-        resource: resource
-      });
-  } else {
+function Log() {
+  var stack;
 
-    return results
-      .filter(function filterResults(entry) {
+  function addEntry(level, resource, message, rule) {
+    var missingArgs = !resource || !message || !rule,
+        notEnoughArgs = arguments.length < addEntry.length;
 
-        return entry.level === level;
-      });
+    if (missingArgs || notEnoughArgs) {
+      throw new Error(errorMessage
+        .replace('$', level)
+        .replace('$', arguments.length - 1));
+    } else {
+      stack
+        .push({
+          level: level,
+          message: message,
+          resource: resource,
+          rule: rule.id
+        });
+    }
   }
+
+  // add methods to public-facing api for each of these
+  levels
+    .forEach(function eachLevel(name) {
+      this[name] = addEntry.bind(null, name);
+    }.bind(this));
+
+  this.empty = function emptyStack() {
+    stack = [];
+  };
+
+  this.read = function readLog(level) {
+
+    return !level ? stack : (stack
+      .filter(function filterLog(entry) {
+
+        return level.indexOf(entry.level) !== -1;
+      }));
+  };
+
+  this.empty();
 }
 
-function log(level) {
-
-  return !level ? results : (results
-    .filter(function filterLog(entry) {
-
-      return level.indexOf(entry.level) !== -1;
-    }));
-}
-
-// add methods to public-facing api for each of these
-levels
-  .forEach(function eachLevel(name) {
-    log[name] = add.bind(null, name);
-  });
-
-log.empty = log.start = function resetLog() {
-  results = [];
-};
-
-log.levels = function getLevels() {
+Log.levels =
+Log.prototype.levels = function getLevels() {
 
   return levels.slice(0);
 };
 
 /* istanbul ignore else */
 if (typeOf(exports, 'object')) {
-  module.exports = log;
+  module.exports = Log;
 }

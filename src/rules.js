@@ -76,10 +76,10 @@ Rules.prototype.run = function runRules(section, context) {
   this.rules[section]
     .forEach(function eachRule(rule) {
       if (rule.test === false) {
-        this.logger.info(section, 'skipped ' + format(context.resource, rule), rule);
+        this.logger.info(section, rule.id, 'skipped ' + format(context.resource, rule), context.lintContext);
       } else {
         if (!passes(rule, context[rule.prop])) {
-          this.logger.error(section, format(section, rule), rule);
+          this.logger.error(section, rule.id, format(section, rule), context.lintContext);
         }
       }
     }.bind(this));

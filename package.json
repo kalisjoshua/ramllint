@@ -34,6 +34,6 @@
     "lint": "eslint src/**.js",
     "quality": "npm run lint && npm run coverage",
     "test": "mocha",
-    "test-w": "npm test -- -R min -w"
+    "test-w": "npm test -- -R min -w --watch-extensions json"
   }
 }

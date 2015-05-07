@@ -2,10 +2,7 @@
 
 var typeOf = require('./typeOf.js'),
 
-    errorMessage,
     levels;
-
-errorMessage = 'Missing argument(s) calling log.$(); $ args passed, 3 needed.';
 
 levels = [
   'error',
@@ -13,25 +10,26 @@ levels = [
   'info'
 ];
 
+function isDef(arg) {
+
+  return arg != null;
+}
+
 function Log() {
   var stack;
 
-  function addEntry(level, resource, message, rule) {
-    var missingArgs = !resource || !message || !rule,
-        notEnoughArgs = arguments.length < addEntry.length;
-
-    if (missingArgs || notEnoughArgs) {
-      throw new Error(errorMessage
-        .replace('$', level)
-        .replace('$', arguments.length - 1));
-    } else {
+  function addEntry(level, section, code, message, locale) {
+    if ([section, code, message, locale].every(isDef)) {
       stack
         .push({
+          code: code,
           level: level,
           message: message,
-          resource: resource,
-          rule: rule.id
+          rule: locale,
+          section: section
         });
+    } else {
+      throw new Error('Missing arguments calling log.$().'.replace('$', level));
     }
   }
 

@@ -45,7 +45,7 @@ function hasError(haystack, needle) {
   result = haystack
     .some(function (entry) {
 
-      return entry.rule.id || entry.rule === needle;
+      return entry.code === needle;
     });
 
   return result;
@@ -60,6 +60,19 @@ describe('RAML Linter', function () {
     // async
     return ramllint.lint('', function (log) {
       assert(hasError(log, 'parse_error'));
+    });
+  });
+
+  it('should pass on valid RAML', function (done) {
+    // async
+    ramllint.lint(passing, function (log) {
+      try {
+        assert.equal(log.length, 0);
+        done();
+      } catch (e) {
+        //console.log(passing);
+        done(e);
+      }
     });
   });
 
@@ -85,7 +98,8 @@ describe('RAML Linter', function () {
 
             done(); // async
           } catch (e) {
-            //console.log(doc + '\n~~~~~~~~~\n', report);
+            console.log(doc);
+            console.log(report);
             done(e); // this is stupid (node)assert/mochajs
           }
         });

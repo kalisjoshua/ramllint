@@ -11,20 +11,58 @@ version: 1
     responses:
       200:
         description: success
+        body:
+          application/json:
+            example: |
+              {}
+  post:
+    description: different
+    body:
+      application/json:
+        example: |
+          {
+            "name": "Bobby Drop Tables"
+          }
+    responses:
+      202:
+        description: accepted
+        body:
+          application/json:
+            example: |
+              {
+                "name": "new"
+              }
   /{id}:
     description: more info
     get:
       description: entity GET
       responses:
-        200: 
+        200:
           description: success
-        400: 
+          body:
+            application/json:
+              example: |
+                {}
+        400:
           description: fail
+          body:
+            application/json:
+              example: |
+                {}
     /sub_resource:
       description: Not methods added intentionally for test coverage.
       get:
+        description: more info
         responses:
-          200: 
+          200:
             description: success
-          500: 
+            body:
+              application/json:
+                example: |
+                  {}
+          500:
             description: fail
+            body:
+              application/json:
+                example: |
+                  {}

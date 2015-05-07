@@ -25,6 +25,11 @@
       "id":   "code_desc",
       "prop": "description",
       "test": true
+    },
+    {
+      "id": "response_example",
+      "prop": "body",
+      "test": true
     }
   ],
 

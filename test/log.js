@@ -24,7 +24,7 @@ describe('log', function () {
   it('should empty the log', function () {
     assert.equal(log.read().length, 0);
 
-    log.info('empty', 'Helo', 'arg');
+    log.info('empty', 'fake', 'Helo', 'arg');
 
     assert.equal(log.read().length, 1);
 
@@ -41,13 +41,14 @@ describe('log', function () {
     var result = [];
 
     while (count--) {
-      log[level]('/endpoint', 'has ' + level, {id: 'fake_entry'});
+      log[level]('/endpoint', 'fake_code', 'has ' + level, 'fake_entry');
 
       result.push({
+        code: 'fake_code',
         level: level,
         message: 'has ' + level,
-        resource: '/endpoint',
-        rule: 'fake_entry'
+        rule: 'fake_entry',
+        section: '/endpoint'
       });
     }
 

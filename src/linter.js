@@ -24,40 +24,46 @@ function Linter(options) {
   };
 
   function parseError() {
-    log.error('RAML', '[parse_error] Parse error.', {id: 'parse_error'});
+    log.error('RAML', 'parse_error', '[parse_error] Parse error.', 'root');
   }
 }
 
-function lintMethod(rules, method) {
+function lintMethod(rules, lintContext, method) {
+  method.lintContext = method.method.toUpperCase() + ' ' + lintContext;
+
   rules.run('method', method);
 
-  Object.keys(method.responses)
+  Object.keys(method.responses || {})
     .forEach(function eachMethod(code) {
-      lintResponse(rules, code, method.responses[code] || {});
+      lintResponse(rules, method.lintContext, code, method.responses[code] || {});
     });
 }
 
-function lintResource(rules, resource) {
+function lintResource(rules, lintContext, resource) {
+  resource.lintContext = lintContext + resource.relativeUri;
+
   rules.run('resource', resource);
 
   (resource.methods || [])
-    .forEach(lintMethod.bind(this, rules));
+    .forEach(lintMethod.bind(this, rules, resource.lintContext));
 
   (resource.resources || [])
-    .forEach(lintResource.bind(this, rules));
+    .forEach(lintResource.bind(this, rules, resource.lintContext));
 }
 
-function lintResponse(rules, code, response) {
+function lintResponse(rules, lintContext, code, response) {
   response.code = code;
+  response.lintContext = lintContext + ' ' + code;
   rules.run('response', response);
 }
 
 function lintRoot(rules, root) {
+  root.lintContext = root.baseUri || 'no baseUri';
   root.resource = 'root';
   rules.run('root', root);
 
   (root.resources || [])
-    .forEach(lintResource.bind(this, rules));
+    .forEach(lintResource.bind(this, rules, root.lintContext));
 }
 
 /* istanbul ignore else */

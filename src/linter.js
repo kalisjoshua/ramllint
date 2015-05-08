@@ -31,6 +31,19 @@ function Linter(options) {
 function lintMethod(rules, lintContext, method) {
   method.lintContext = method.method.toUpperCase() + ' ' + lintContext;
 
+  method.examples = [];
+  method.schemas = [];
+  Object.keys(method.body || {})
+    .forEach(function easierLintingProperties(mediatype) {
+      if (method.body[mediatype].example) {
+        method.examples.push(mediatype);
+      }
+
+      if (method.body[mediatype].schema) {
+        method.schemas.push(mediatype);
+      }
+    });
+
   rules.run('method', method);
 
   Object.keys(method.responses || {})

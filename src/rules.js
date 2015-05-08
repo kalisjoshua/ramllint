@@ -62,6 +62,25 @@ function passes(test, value) {
   return type in testExec && testExec[type](test, value);
 }
 
+function passing(rule, context) {
+  var result;
+
+  if (rule.prereq) {
+    result = Object.keys(rule.prereq || {})
+      .reduce(function prereqReduce(acc, key) {
+        if (acc && passes(rule.prereq[key], context[key])) {
+          acc = passes(rule.test, context[rule.prop]);
+        }
+
+        return acc;
+      }, true);
+  } else {
+    result = passes(rule.test, context[rule.prop]);
+  }
+
+  return result;
+}
+
 function Rules(logger, options) {
   this.rules = Object.keys(defaults)
     .reduce(function sections(full, section) {
@@ -77,16 +96,18 @@ function Rules(logger, options) {
 Rules.prototype.passes = passes;
 
 Rules.prototype.run = function runRules(section, context) {
+  var logger = this.logger;
+
   this.rules[section]
     .forEach(function eachRule(rule) {
       if (rule.test === false) {
-        this.logger.info(section, rule.id, 'skipped ' + format(context.resource, rule), context.lintContext);
+        logger.info(section, rule.id, 'skipped ' + format(context.resource, rule), context.lintContext);
       } else {
-        if (!passes(rule.test, context[rule.prop])) {
-          this.logger.error(section, rule.id, format(section, rule), context.lintContext);
+        if (!passing(rule, context)) {
+          logger.error(section, rule.id, format(section, rule), context.lintContext);
         }
       }
-    }.bind(this));
+    });
 };
 
 /* istanbul ignore else */

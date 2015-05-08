@@ -4,6 +4,34 @@
       "id":   "method_desc",
       "prop": "description",
       "test": true
+    },
+    {
+      "id":   "request_example",
+      "prereq": {
+        "method": [
+          "patch",
+          "post",
+          "put"
+        ]
+      },
+      "prop": "examples",
+      "test": [
+        "application/json"
+      ]
+    },
+    {
+      "id":   "request_schema",
+      "prereq": {
+        "method": [
+          "patch",
+          "post",
+          "put"
+        ]
+      },
+      "prop": "schemas",
+      "test": [
+        "application/json"
+      ]
     }
   ],
 

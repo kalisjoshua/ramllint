@@ -7,8 +7,12 @@ var defaults = require('./defaults.json'),
 
 testExec = {
   'array': function execArray(a, v) {
+    function every(expected) {
 
-    return a.indexOf(v) >= 0;
+      return v.indexOf(expected) >= 0;
+    }
+
+    return typeOf(v, 'array') ? a.every(every) : a.indexOf(v) >= 0;
   },
   'boolean': function execBoolean(t, v) {
 
@@ -52,10 +56,10 @@ function mapRules(options, rule) {
   return custom;
 }
 
-function passes(rule, value) {
-  var type = typeOf(rule.test);
+function passes(test, value) {
+  var type = typeOf(test);
 
-  return type in testExec && testExec[type](rule.test, value);
+  return type in testExec && testExec[type](test, value);
 }
 
 function Rules(logger, options) {
@@ -78,7 +82,7 @@ Rules.prototype.run = function runRules(section, context) {
       if (rule.test === false) {
         this.logger.info(section, rule.id, 'skipped ' + format(context.resource, rule), context.lintContext);
       } else {
-        if (!passes(rule, context[rule.prop])) {
+        if (!passes(rule.test, context[rule.prop])) {
           this.logger.error(section, rule.id, format(section, rule), context.lintContext);
         }
       }

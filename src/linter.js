@@ -54,6 +54,20 @@ function lintResource(rules, lintContext, resource) {
 function lintResponse(rules, lintContext, code, response) {
   response.code = code;
   response.lintContext = lintContext + ' ' + code;
+
+  response.examples = [];
+  response.schemas = [];
+  Object.keys(response.body || {})
+    .forEach(function easierLintingProperties(mediatype) {
+      if (response.body[mediatype].example) {
+        response.examples.push(mediatype);
+      }
+
+      if (response.body[mediatype].schema) {
+        response.schemas.push(mediatype);
+      }
+    });
+
   rules.run('response', response);
 }
 

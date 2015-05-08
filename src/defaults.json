@@ -28,8 +28,17 @@
     },
     {
       "id": "response_example",
-      "prop": "body",
-      "test": true
+      "prop": "examples",
+      "test": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "response_schema",
+      "prop": "schemas",
+      "test": [
+        "application/json"
+      ]
     }
   ],
 

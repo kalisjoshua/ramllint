@@ -76,6 +76,20 @@ describe('RAML Linter', function () {
     });
   });
 
+  it('should skip rules', function (done) {
+    var myLinter = new Linter({api_version: false});
+
+    myLinter.lint(passing, function (results) {
+      try {
+        assert.equal(results.length, 0);
+        assert(hasError(myLinter.results(), 'api_version'));
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+  });
+
   failing
     .forEach(function (section) {
       var doc = section.doc;

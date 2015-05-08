@@ -24,14 +24,18 @@
   "devDependencies": {
     "eslint": "^0.20.0",
     "istanbul": "^0.3.13",
+    "jsdoc": "^3.3.0-beta3",
     "jshint": "^2.7.0",
     "mocha": "^2.2.4"
   },
   "scripts": {
     "coverage": "istanbul cover _mocha",
+    "doc": "jsdoc -c ./conf.json src/**.js",
+    "doc-pub": "git subtree push --prefix=docs upstream gh-pages",
+    "predoc-pub": "npm run doc",
     "example": "node src/cli.js ./examples/drapi/api.raml",
     "hint": "jshint src/**.js",
-    "lint": "eslint src/**.js",
+    "lint": "npm run hint && eslint src/**.js",
     "quality": "npm run lint && npm run coverage",
     "test": "mocha",
     "test-w": "npm test -- -R min -w --watch-extensions json"

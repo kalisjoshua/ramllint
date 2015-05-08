@@ -13,7 +13,7 @@ describe('typeOf (replacement)', function () {
     [true,      'boolean'],
     [Error,     'function'],
     [Date,      'function'],
-    //[window,    'global'],
+    [(function () {return this;}()),      'global'],
     [JSON,      'json'],
     [Math,      'math'],
     [42,        'number'],

@@ -45,7 +45,7 @@ describe('Rules', function () {
   ].forEach(function (mock) {
     var expected = mock[0],
         str,
-        test = mock[2],
+        test = mock[2].test,
         value = mock[1];
 
     str = 'should $ \'$\' for test \'$\''

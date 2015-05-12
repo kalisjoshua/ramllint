@@ -50,7 +50,7 @@ function instanceLevelMethods(addEntry, name) {
   */
 function isDef(arg) {
 
-  return arg != null;
+  return arg !== null &amp;&amp; arg !== undefined;
 }
 
 /**

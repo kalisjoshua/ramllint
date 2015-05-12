@@ -45,11 +45,7 @@ A number of helpful commands have been created in the npm scripts (`package.json
 
 ## Running
 
-An example run is setup in the npm scripts.
-
-```
-npm run example
-```
+@TODO: example using the CLI
 
 ## Using the Linter
 

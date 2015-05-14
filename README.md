@@ -82,6 +82,14 @@ This is a work in progress.
 ramllint src/api.raml
 ```
 
+## GH-Pages
+
+Some information about the code is hosted on the gh-pages branch and served:
+
+  1. [Code Documentation](http://git/pages/Galileo/ramllint/)
+  2. [Code Coverage Report](http://git/pages/Galileo/ramllint/coverage/lcov-report/)
+  3. [Static Code Analysis](http://git/pages/Galileo/ramllint/stats/)
+
 ## License
 
 [MIT](LICENSE.md)

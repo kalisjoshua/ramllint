@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/linter.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../prettify.css">
+    <link rel="stylesheet" href="../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">src/linter.js</span></h1>
+    <h2>
+        Statements: <span class="metric">100% <small>(43 / 43)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(20 / 20)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(11 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(43 / 43)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric">3 branches</span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">src/</a> &#187; linter.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+var parser = require('raml2obj'),
+&nbsp;
+    // local libraries
+    Log = require('./log.js'),
+    Rules = require('./rules.js'),
+    typeOf = require('./typeOf.js');
+&nbsp;
+/**
+  * @typedef {object} Options
+  * @description
+  * An object containing key/value pairs to configure the rules for the linter.
+  * Three available value types are expected:
+  *   - (string) - a regular expression to test against
+  *   - (boolean) true - evaluates that the value is provided (any value)
+  *   - (boolean) false - skips the rule validation; logs a `info` entry
+  *   - (array) - a list of stings to check the value against; any match passes
+  * @example
+  * {
+  *   "api_version": true,
+  *   "base_uri": "^[a-z]+[_a-z]{3}$",
+  *   "code_desc": false,
+  *   "request_schema": [
+  *     "application/json"
+  *   ]
+  * }
+  */
+&nbsp;
+/**
+  * @private
+  * @description
+  * Flatten the context to reduce needless recursion overhead.
+  * @arg {object} context - the context to extract the examples and schemas out of.
+  */
+function flattenExamplesAndSchemas(context) {
+  context.examples = [];
+  context.schemas = [];
+&nbsp;
+  function flattener(mediatype) {
+    /* istanbul ignore else */
+    <span class="skip-if-branch" title="else path not taken" >E</span>if (context.body[mediatype].example) {
+      context.examples.push(mediatype);
+    }
+&nbsp;
+    /* istanbul ignore else */
+    <span class="skip-if-branch" title="else path not taken" >E</span>if (context.body[mediatype].schema) {
+      context.schemas.push(mediatype);
+    }
+  }
+&nbsp;
+  Object.keys(context.body || {})
+    .forEach(flattener);
+}
+&nbsp;
+/**
+  * @constructor
+  * @description
+  * Creates a new instance with the given options; passed in options are merged
+  * with defaults.
+  * @arg {Options} options - configuration options from project based prefs file.
+  * @example
+  * // using only default rule definitions
+  * var basicLinter = new Linter();
+  * @example
+  * // passing in customizations
+  * var myLinter = new Linter({api_version: false});
+  */
+function Linter(options) {
+  var log = new Log(),
+      rules = new Rules(log, options);
+&nbsp;
+  /**
+    * @callback LinterCallback
+    * @description
+    * The function to handle the results of linting the RAML document.
+    * @arg {LogEntry[]} results
+    */
+&nbsp;
+  /**
+    * @description
+    * Run all rules on the provided RAML document.
+    * @arg {string} raml - the RAML document as a string or filepath.
+    * @arg {LinterCallback} callback - the callback to receive the linting results.
+    * @example
+    * basicLinter.lint(myRAML, function (results) {
+    *   // check results for entries; if none, no errors were encountered
+    * });
+    */
+  this.lint = function lint(raml, callback) {
+    log.empty();
+&nbsp;
+    // when the parser is done send back the log to indicate failure/success
+    function resolve() {
+      callback(log.read('error'));
+    }
+&nbsp;
+    return parser
+      .parse(raml)
+      .then(lintRoot.bind(this, rules), parseError)
+      .finally(resolve);
+  };
+&nbsp;
+  /**
+    * @description
+    * Provide a way to get all results in log; the callback in the {@link Linter#lint}
+    * method only returns errors by default to be permissive of customizations.
+    * @see {@link Log#read}
+    * @example
+    * // while this is possible, it is probably less helpful than the next example
+    * myLinter.results(); // returns an array of all log entries collected
+    * @example
+    * myLingter.lint(myRAML, function () {
+    *   // ignoring callback argument
+    *
+    *   // using the collection of all log entries for this round of linting
+    *   myLinter.results(); // returns all log entries
+    * });
+    */
+  this.results = log.read;
+&nbsp;
+  function parseError() {
+    log.error('RAML', 'parse_error', '[parse_error] Parse error.', 'root');
+  }
+}
+&nbsp;
+/**
+  * @private
+  * @description
+  * Handle configuration and rule execution for the method section.
+  * @arg {object} rules - instance of Rules containing default and custom rules.
+  * @arg {string} lintContext - descriptive of where rules have not been followed.
+  * @arg {object} context - current (method) object location within AST.
+  */
+function lintMethod(rules, lintContext, context) {
+  context.lintContext = context.method.toUpperCase() + ' ' + lintContext;
+&nbsp;
+  flattenExamplesAndSchemas(context);
+&nbsp;
+  // evaluate all rules for this level of the AST
+  rules.run('method', context);
+&nbsp;
+  // attempt to recurse into the AST
+  Object.keys(context.responses || {})
+    .forEach(function eachMethod(code) {
+      lintResponse(rules, context.lintContext, code, context.responses[code] || {});
+    });
+}
+&nbsp;
+/**
+  * @private
+  * @description
+  * Handle configuration and rule execution for the resource section.
+  * @arg {object} rules - instance of Rules containing default and custom rules.
+  * @arg {string} lintContext - descriptive of where rules have not been followed.
+  * @arg {object} context - current (resource) object location within AST.
+  */
+function lintResource(rules, lintContext, context) {
+  context.lintContext = lintContext + context.relativeUri;
+&nbsp;
+  // evaluate all rules for this level of the AST
+  rules.run('resource', context);
+&nbsp;
+  // attempt to recurse into the AST
+  (context.methods || [])
+    .forEach(lintMethod.bind(this, rules, context.lintContext));
+&nbsp;
+  // attempt to recurse into the AST
+  (context.resources || [])
+    .forEach(lintResource.bind(this, rules, context.lintContext));
+}
+&nbsp;
+/**
+  * @private
+  * @description
+  * Handle configuration and rule execution for the response section.
+  * @arg {object} rules - instance of Rules containing default and custom rules.
+  * @arg {string} lintContext - descriptive of where rules have not been followed.
+  * @arg {string} code - the response code of the current context.
+  * @arg {object} context - current (response) object location within AST.
+  */
+function lintResponse(rules, lintContext, code, context) {
+  context.code = code;
+  context.lintContext = lintContext + ' ' + code;
+&nbsp;
+  flattenExamplesAndSchemas(context);
+&nbsp;
+  // evaluate all rules for this level of the AST
+  rules.run('response', context);
+}
+&nbsp;
+/**
+  * @private
+  * @description
+  * Handle configuration and rule execution for the root section.
+  * @arg {object} rules - instance of Rules containing default and custom rules.
+  * @arg {object} context - current (root) object location within AST.
+  */
+function lintRoot(rules, context) {
+  // start the linting context string for better indication of where errors exist.
+  context.lintContext = context.baseUri || 'no baseUri';
+  context.resource = 'root';
+&nbsp;
+  rules.run('root', context);
+&nbsp;
+  (context.resources || [])
+    .forEach(lintResource.bind(this, rules, context.lintContext));
+}
+&nbsp;
+/* istanbul ignore else */
+<span class="skip-if-branch" title="else path not taken" >E</span>if (typeOf(exports, 'object')) {
+  module.exports = Linter;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed May 13 2015 07:44:12 GMT-0400 (EDT)</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

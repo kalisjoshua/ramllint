@@ -19,6 +19,7 @@
   },
   "main": "src/ramllint.js",
   "dependencies": {
+    "plato": "^1.4.0",
     "raml2obj": "^2.0.0"
   },
   "devDependencies": {
@@ -29,13 +30,14 @@
     "mocha": "^2.2.4"
   },
   "scripts": {
-    "coverage": "istanbul cover _mocha",
+    "coverage": "istanbul cover --dir docs/coverage _mocha",
     "doc": "jsdoc -c ./conf.json src/**.js",
     "doc-pub": "git subtree push --prefix=docs upstream gh-pages",
     "predoc-pub": "npm run doc",
     "hint": "jshint src/**.js",
     "lint": "npm run hint && eslint src/**.js",
     "quality": "npm run lint && npm run coverage",
+    "stats": "plato -d docs/stats src/**.js",
     "test": "mocha",
     "test-w": "npm test -- -R min -w --watch-extensions json"
   }

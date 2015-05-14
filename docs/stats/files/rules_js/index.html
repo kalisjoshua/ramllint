@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - rules.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>rules.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">76.20</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">205</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">27.25</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">0.82</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">&#039;use strict&#039;;
+
+var defaults = require(&#039;./defaults.json&#039;),
+    typeOf = require(&#039;./typeOf.js&#039;),
+
+    ruleTypes;
+
+/**
+  * @typedef {object} Context
+  * @description
+  * A node from within the AST of a RAML document provided by the raml2obj library.
+  * Since all nodes within the AST are not the same the properties available are
+  * variable but are consistent with sections of the AST; `resource`s should be
+  * consistent with other `resource`s, but a `response` would not necessarily be
+  * consistent with any other section context and vice-versa.
+  * @property {string} lintContext
+  * a progressively expressive identifier for where in the RAML the current
+  * context is; used for log entries for helpful reporting
+  */
+
+/**
+  * @typedef {object} Rule
+  * @description
+  * An object defining the default structure of a Rule.
+  * @property {string} id - unique identifier name for the rule
+  * @property {object} prereq - collection of named prerequisite(s) based on properties
+  * @property {string} prop - the name of the property in the AST to validate
+  * @property {(array|boolean|string)} test
+  * Explanation of possible values:
+  *   - (array) A list of valid - string - values
+  *   - (boolean) `false` indicates a skipped test
+  *   - (boolean) `true` validates any value
+  *   - (string) A string, that will be passed to RegExp()
+  */
+
+/**
+  * @typedef {string} Section
+  * @description
+  * The location within the AST. The possible values are:
+  *   + root
+  *   + resource
+  *   + method
+  *   + response
+  */
+
+/**
+  * @private
+  * @description
+  * Collection of rule-type functions
+  * @arg {mixed} test - rule test configuration
+  * @arg {mixed} value - the value from the AST
+  * @returns {boolean} whether or not the value satisfiest the test
+  */
+ruleTypes = {
+  &#039;array&#039;: function execArray(test, value) {
+    function every(expected) {
+
+      return value.indexOf(expected) &gt;= 0;
+    }
+
+    return typeOf(value, &#039;array&#039;) ? test.every(every) : test.indexOf(value) &gt;= 0;
+  },
+  &#039;boolean&#039;: function execBoolean(test, value) {
+
+    return !!value;
+  },
+  &#039;regexp&#039;: function execRegExp(test, value) {
+
+    return test.test(value);
+  }
+};
+
+/**
+  * @private
+  * @description
+  * Format a message for log entry.
+  * @arg {string} section - indicates the section of the RAML document
+  * @arg {object} rule - an Options entry including: id, and prop
+  * @returns {string} a log entry string
+  */
+function format(section, rule) {
+  var result;
+
+  result = &#039;[$] RAML section ($) must include: $.&#039;
+    .replace(&#039;$&#039;, rule.id)
+    .replace(&#039;$&#039;, section)
+    .replace(&#039;$&#039;, rule.prop);
+
+  return result;
+}
+
+/**
+  * @private
+  * @description
+  * Merge custom options with defaults; used in Array.map().
+  * @arg {Options} options - default override options
+  * @arg {object} rule - instance within defaults
+  * @returns {object} A copy of the default rule customized optionally.
+  */
+function mapRules(options, rule) {
+  var custom;
+
+  if (options &amp;&amp; rule.id in options) {
+    custom = JSON.parse(JSON.stringify(rule));
+    custom.test = options[rule.id];
+  } else {
+    custom = rule;
+  }
+
+  if (typeOf(custom.test, &#039;string&#039;)) {
+    custom.test = new RegExp(custom.test);
+  }
+
+  return custom;
+}
+
+/**
+  * @private
+  * @description
+  * Check the type of test and run.
+  * @arg {mixed} test - value of the test prop in rules
+  * @arg {mixed} value - value from the AST
+  * @returns {boolean} whether or not the value satisfies the test
+  */
+function passes(test, value) {
+  var type = typeOf(test);
+
+  return type in ruleTypes &amp;&amp; ruleTypes[type](test, value);
+}
+
+/**
+  * @private
+  * @description
+  * Check for prerequisite test(s) or regular test.
+  * @arg {object} rule - instance within options object
+  * @arg {Context} context - object from within AST
+  * @returns {boolean} whether or not the context satisfies the rule
+  */
+function passing(rule, context) {
+  var result;
+
+  if (rule.prereq) {
+    result = Object.keys(rule.prereq)
+      .reduce(function prereqReduce(acc, key) {
+        if (acc &amp;&amp; passes(rule.prereq[key], context[key])) {
+          acc = passes(rule.test, context[rule.prop]);
+        }
+
+        return acc;
+      }, true);
+  } else {
+    result = passes(rule.test, context[rule.prop]);
+  }
+
+  return result;
+}
+
+/**
+  * @constructor
+  * @description
+  * Create an object holding all rules and provides the capability to run them
+  * against contexts of an AST.
+  * @arg {Log} logger - an instance of Log to keep track of entries
+  * @arg {Options} options - external customization of rules
+  */
+function Rules(logger, options) {
+  this.rules = Object.keys(defaults)
+    .reduce(function sections(full, section) {
+      full[section] = defaults[section]
+        .map(mapRules.bind(null, options));
+
+      return full;
+    }, {});
+
+  this.logger = logger;
+}
+
+/**
+  * @description
+  * Instance method to execute rules per section.
+  * @arg {Section} section - the name of the section to run rules against
+  * @arg {Context} context - the context to run rules against
+  */
+Rules.prototype.run = function runRules(section, context) {
+  // locals here, to prevent the need to #bind() the function in the forEach
+  var logger = this.logger;
+
+  function eachRule(rule) {
+    if (rule.test === false) {
+      logger.info(section, rule.id, &#039;skipped &#039; + format(context.resource, rule), context.lintContext);
+    } else {
+      if (!passing(rule, context)) {
+        logger.error(section, rule.id, format(section, rule), context.lintContext);
+      }
+    }
+  }
+
+  this.rules[section]
+    .forEach(eachRule);
+};
+
+/* istanbul ignore else */
+if (typeOf(exports, &#039;object&#039;)) {
+  module.exports = Rules;
+}</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

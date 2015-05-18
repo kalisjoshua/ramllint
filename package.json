@@ -1,25 +1,24 @@
 {
   "name": "ramllint",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "RAML Lint",
   "author": "Tyler Smith <TylerSmith@quickenloans.com",
   "contributors": [
-    "Joshua T Kalis <JoshKalis@quickenloans.com>",
+    "Joshua T Kalis <KalisJoshua@gmail.com>",
     "Jorden Lowe <JordenLowe@quickenloans.com>"
   ],
   "repository": {
     "type": "git",
-    "url": "http://git/Galileo/ramllint"
+    "url": "http://github.com/QuickenLoans/ramllint"
   },
   "bugs": {
-    "url": "http://git/Galileo/ramllint/issues"
+    "url": "http://github.com/QuickenLoans/ramllint/issues"
   },
   "bin": {
     "ramllint": "./src/cli.js"
   },
   "main": "src/ramllint.js",
   "dependencies": {
-    "plato": "^1.4.0",
     "raml2obj": "^2.0.0"
   },
   "devDependencies": {
@@ -27,7 +26,8 @@
     "istanbul": "^0.3.13",
     "jsdoc": "^3.3.0-beta3",
     "jshint": "^2.7.0",
-    "mocha": "^2.2.4"
+    "mocha": "^2.2.4",
+    "plato": "^1.4.0"
   },
   "scripts": {
     "coverage": "istanbul cover --dir docs/coverage _mocha",

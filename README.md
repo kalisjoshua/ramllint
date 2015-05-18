@@ -86,9 +86,9 @@ ramllint src/api.raml
 
 Some information about the code is hosted on the gh-pages branch and served:
 
-  1. [Code Documentation](http://git/pages/Galileo/ramllint/)
-  2. [Code Coverage Report](http://git/pages/Galileo/ramllint/coverage/lcov-report/)
-  3. [Static Code Analysis](http://git/pages/Galileo/ramllint/stats/)
+  1. [Code Documentation](http://QuickenLoans.github.io/ramllint/)
+  2. [Code Coverage Report](http://QuickenLoans.github.io/ramllint/coverage/lcov-report/)
+  3. [Static Code Analysis](http://QuickenLoans.github.io/ramllint/stats/)
 
 ## License
 

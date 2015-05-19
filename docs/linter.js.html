@@ -147,7 +147,8 @@ function Linter(options) {
     */
   this.results = log.read;
 
-  function parseError() {
+  function parseError(error) {
+    log.raw(error);
     log.error('RAML', 'parse_error', '[parse_error] Parse error.', 'root');
   }
 }

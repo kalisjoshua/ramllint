@@ -143,6 +143,17 @@ function Log() {
 
   /**
     * @description
+    * For use when logging information that will be helpful in debugging but will
+    * not necessarily be able to give additional information that the normal log
+    * methods require.
+    * @arg {any} obj - any object to put into the log
+    */
+  this.raw = function logRaw(obj) {
+    stack.push(obj);
+  };
+
+  /**
+    * @description
     * Reset the list, of entries, to an empty array.
     */
   this.empty = function emptyStack() {

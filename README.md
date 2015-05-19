@@ -1,13 +1,13 @@
-[RAML](http://raml.org) does not enforce any style rules on how to consistently
-document an API; and that is good because not all projects will need the same
-rule enforcement. However, all APIs defined within a group of related APIs - such
-as many from a single entity or organization - should be consistent across each. 
-APIs developed and documented by one team should be consistent with those by
-another team.
+[RAML](http://raml.org) is a language for modeling RESTful APIs. By design,
+it does not enforce any style rules on how to consistently document APIs,
+because not all projects will require the same level of rule enforcement.
+However, it can often be useful to enforce uniform rules and standards across a
+group of related APIs to ensure consistency and uniformity across multiple teams
+or business units.
 
 RAML Linter is a static analysis, [linter-like](http://en.wikipedia.org/wiki/Lint_%28software%29),
-utility that will enforce rules (optionally) on the RAML created such that
-consistency can be more easily maintained.
+utility that will enforce rules (optionally) on a given RAML document, ensuring
+consistency and quality.
 
 ## Contributing
 
@@ -21,18 +21,15 @@ consistency can be more easily maintained.
 
 ### Contributions
 
-This project is trying to keep a high level of code coverage for unit tests. Contributtions
-are required to have unit tests provided to explain what is being added as well as
-prove compliance with use case.
+This project aims to maintain a high level of unit test code coverage. All pull
+requests must be accompanied by appropriate test cases, and all tests must pass
+in order to be considered for merge.
 
-The basis for rules is stored in `src/defaults.json` and is the location to [add new
-rules](NEWRULES.md) as defaults. Projects using the linter to maintain
-consistency will be able to provide a customization file which will override the
-values in the defauls file.
+For detailed rules on contributions, please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## (`npm`) Scripts
 
-A number of helpful commands have been created in the npm scripts (`package.json`).
+Below is a list of commands available via npm (`package.json`).
 
   + `npm run coverage` - runs all unit tests (Mocha) with code coverage (Istanbul)
   + `npm run doc` - generate documentation pages (JSDoc)
@@ -49,14 +46,14 @@ A number of helpful commands have been created in the npm scripts (`package.json
 
 ## Using the Linter
 
-There are two ways to use the RAML Linter, as a: library, and as a command line
-utility. How you intend to use RAML Lint will dictate which way you use.
+There are two ways to use the RAML Linter. either as a library, or as a command
+line utility.
 
 ### Library
 
-Using the library in code will provide the most flexibility; full access to how
-to handle errors as well as reading the full list of results for: 'error',
-'warning', and 'info' log entries. 
+Using the library in code provides the most flexibility, including error
+handling and the ability to parse the full results for: `error`, `warning`, and
+`info` log entries.
 
 ```
 var ramllint = require('ramllint'),

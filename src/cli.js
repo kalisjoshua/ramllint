@@ -13,5 +13,5 @@ var path = require('path'),
 filepath = path.resolve(process.argv[2]);
 
 ramllinter.lint(filepath, function outputFn(results) {
-  console.log(results); // shutup eslint
+  console.log(ramllinter.results());
 });

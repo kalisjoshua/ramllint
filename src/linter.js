@@ -121,7 +121,6 @@ function Linter(options) {
 
   function parseError(error) {
     log.raw(error);
-    log.error('RAML', 'parse_error', '[parse_error] Parse error.', 'root');
   }
 }
 

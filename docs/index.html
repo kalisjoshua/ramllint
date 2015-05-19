@@ -43,15 +43,15 @@
 
 
     <section>
-        <article><p><a href="http://raml.org">RAML</a> does not enforce any style rules on how to consistently
-document an API; and that is good because not all projects will need the same
-rule enforcement. However, all APIs defined within a group of related APIs - such
-as many from a single entity or organization - should be consistent across each. 
-APIs developed and documented by one team should be consistent with those by
-another team.</p>
+        <article><p><a href="http://raml.org">RAML</a> is a language for modeling RESTful APIs. By design,
+it does not enforce any style rules on how to consistently document APIs,
+because not all projects will require the same level of rule enforcement.
+However, it can often be useful to enforce uniform rules and standards across a
+group of related APIs to ensure consistency and uniformity across multiple teams
+or business units.</p>
 <p>RAML Linter is a static analysis, <a href="http://en.wikipedia.org/wiki/Lint_%28software%29">linter-like</a>,
-utility that will enforce rules (optionally) on the RAML created such that
-consistency can be more easily maintained.</p>
+utility that will enforce rules (optionally) on a given RAML document, ensuring
+consistency and quality.</p>
 <h2>Contributing</h2><ol>
 <li>Fork this repository</li>
 <li><code>git clone</code></li>
@@ -61,14 +61,11 @@ consistency can be more easily maintained.</p>
 <li>Write code</li>
 <li>Submit Pull Request</li>
 </ol>
-<h3>Contributions</h3><p>This project is trying to keep a high level of code coverage for unit tests. Contributtions
-are required to have unit tests provided to explain what is being added as well as
-prove compliance with use case.</p>
-<p>The basis for rules is stored in <code>src/defaults.json</code> and is the location to <a href="NEWRULES.md">add new
-rules</a> as defaults. Projects using the linter to maintain
-consistency will be able to provide a customization file which will override the
-values in the defauls file.</p>
-<h2>(<code>npm</code>) Scripts</h2><p>A number of helpful commands have been created in the npm scripts (<code>package.json</code>).</p>
+<h3>Contributions</h3><p>This project aims to maintain a high level of unit test code coverage. All pull
+requests must be accompanied by appropriate test cases, and all tests must pass
+in order to be considered for merge.</p>
+<p>For detailed rules on contributions, please refer to <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+<h2>(<code>npm</code>) Scripts</h2><p>Below is a list of commands available via npm (<code>package.json</code>).</p>
 <ul>
 <li><code>npm run coverage</code> - runs all unit tests (Mocha) with code coverage (Istanbul)</li>
 <li><code>npm run doc</code> - generate documentation pages (JSDoc)</li>
@@ -80,11 +77,11 @@ values in the defauls file.</p>
 <li><code>npm run test-w</code> - runs tests with additional flags, including --watch</li>
 </ul>
 <h2>Running</h2><p>@TODO: example using the CLI</p>
-<h2>Using the Linter</h2><p>There are two ways to use the RAML Linter, as a: library, and as a command line
-utility. How you intend to use RAML Lint will dictate which way you use.</p>
-<h3>Library</h3><p>Using the library in code will provide the most flexibility; full access to how
-to handle errors as well as reading the full list of results for: 'error',
-'warning', and 'info' log entries. </p>
+<h2>Using the Linter</h2><p>There are two ways to use the RAML Linter. either as a library, or as a command
+line utility.</p>
+<h3>Library</h3><p>Using the library in code provides the most flexibility, including error
+handling and the ability to parse the full results for: <code>error</code>, <code>warning</code>, and
+<code>info</code> log entries.</p>
 <pre class="prettyprint source"><code>var ramllint = require('ramllint'),
     ramlDocument = require('./path/to/api.raml');
 
@@ -100,9 +97,9 @@ ramllint(ramlDocument, function (results) {
 });</code></pre><h3>Command Line</h3><p>This is a work in progress.</p>
 <pre class="prettyprint source"><code>ramllint src/api.raml</code></pre><h2>GH-Pages</h2><p>Some information about the code is hosted on the gh-pages branch and served:</p>
 <ol>
-<li><a href="http://git/pages/Galileo/ramllint/">Code Documentation</a></li>
-<li><a href="http://git/pages/Galileo/ramllint/coverage/lcov-report/">Code Coverage Report</a></li>
-<li><a href="http://git/pages/Galileo/ramllint/stats/">Static Code Analysis</a></li>
+<li><a href="http://QuickenLoans.github.io/ramllint/">Code Documentation</a></li>
+<li><a href="http://QuickenLoans.github.io/ramllint/coverage/lcov-report/">Code Coverage Report</a></li>
+<li><a href="http://QuickenLoans.github.io/ramllint/stats/">Static Code Analysis</a></li>
 </ol>
 <h2>License</h2><p><a href="LICENSE.md">MIT</a></p></article>
     </section>

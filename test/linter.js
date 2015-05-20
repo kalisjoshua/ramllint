@@ -59,7 +59,10 @@ describe('RAML Linter', function () {
   it('should fail with parse_error', function () {
     // async
     return ramllint.lint('', function (log) {
-      assert(hasError(log, 'parse_error'));
+      var result = ramllint.results();
+
+      assert.equal(result.length, 1);
+      assert.equal(result[0].name, 'YAMLError');
     });
   });
 

@@ -1,17 +1,23 @@
 #!/usr/bin/env node
-
 'use strict';
 
 var path = require('path'),
 
+    cli = require('commander'),
+
     Linter = require('./linter.js'),
+    project = require('../package.json'),
 
-    ramllinter = new Linter(),
+    ramllinter = new Linter();
 
-    filepath;
+cli
+  .option('-l, --level <level>', 'logging level: error|warning|info')
+  .usage('[options] <api.raml>')
+  .version(project.version)
+  .parse(process.argv);
 
-filepath = path.resolve(process.argv[2]);
+cli.args[0] = path.resolve(cli.args[0] || 'api.raml');
 
-ramllinter.lint(filepath, function outputFn(results) {
-  console.log(ramllinter.results());
+ramllinter.lint(cli.args[0], function outputFn(results) {
+  console.log(ramllinter.results(cli.level));
 });

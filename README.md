@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/QuickenLoans/ramllint.svg)](https://travis-ci.org/QuickenLoans/ramllint)
 [![Coverage Status](https://coveralls.io/repos/QuickenLoans/ramllint/badge.svg?branch=master)](https://coveralls.io/r/QuickenLoans/ramllint?branch=master)
+[![Codacy Badge](https://www.codacy.com/project/badge/48c42e8f334e4dd9b3bccb96c3559f48)](https://www.codacy.com/app/QuickenLoans/ramllint)
 [![Dependency Status](https://img.shields.io/david/QuickenLoans/ramllint.svg?style=flat-rounded)](https://david-dm.org/QuickenLoans/ramllint)
 [![License Type](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-'use strict';
 
 var path = require('path'),
 
@@ -18,6 +17,7 @@ cli
 
 cli.args[0] = path.resolve(cli.args[0] || 'api.raml');
 
-ramllinter.lint(cli.args[0], function outputFn(results) {
+ramllinter.lint(cli.args[0], function outputFn() {
+  'use strict';
   console.log(ramllinter.results(cli.level));
 });

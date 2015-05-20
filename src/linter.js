@@ -54,77 +54,6 @@ function flattenExamplesAndSchemas(context) {
 }
 
 /**
-  * @constructor
-  * @description
-  * Creates a new instance with the given options; passed in options are merged
-  * with defaults.
-  * @arg {Options} options - configuration options from project based prefs file.
-  * @example
-  * // using only default rule definitions
-  * var basicLinter = new Linter();
-  * @example
-  * // passing in customizations
-  * var myLinter = new Linter({api_version: false});
-  */
-function Linter(options) {
-  var log = new Log(),
-      rules = new Rules(log, options);
-
-  /**
-    * @callback LinterCallback
-    * @description
-    * The function to handle the results of linting the RAML document.
-    * @arg {LogEntry[]} results
-    */
-
-  /**
-    * @description
-    * Run all rules on the provided RAML document.
-    * @arg {string} raml - the RAML document as a string or filepath.
-    * @arg {LinterCallback} callback - the callback to receive the linting results.
-    * @example
-    * basicLinter.lint(myRAML, function (results) {
-    *   // check results for entries; if none, no errors were encountered
-    * });
-    */
-  this.lint = function lint(raml, callback) {
-    log.empty();
-
-    // when the parser is done send back the log to indicate failure/success
-    function resolve() {
-      callback(log.read('error'));
-    }
-
-    return parser
-      .parse(raml)
-      .then(lintRoot.bind(this, rules), parseError)
-      .finally(resolve);
-  };
-
-  /**
-    * @description
-    * Provide a way to get all results in log; the callback in the {@link Linter#lint}
-    * method only returns errors by default to be permissive of customizations.
-    * @see {@link Log#read}
-    * @example
-    * // while this is possible, it is probably less helpful than the next example
-    * myLinter.results(); // returns an array of all log entries collected
-    * @example
-    * myLingter.lint(myRAML, function () {
-    *   // ignoring callback argument
-    *
-    *   // using the collection of all log entries for this round of linting
-    *   myLinter.results(); // returns all log entries
-    * });
-    */
-  this.results = log.read;
-
-  function parseError(error) {
-    log.raw(error);
-  }
-}
-
-/**
   * @private
   * @description
   * Handle configuration and rule execution for the method section.
@@ -205,6 +134,73 @@ function lintRoot(rules, context) {
 
   (context.resources || [])
     .forEach(lintResource.bind(this, rules, context.lintContext));
+}
+
+/**
+  * @constructor
+  * @description
+  * Creates a new instance with the given options; passed in options are merged
+  * with defaults.
+  * @arg {Options} options - configuration options from project based prefs file.
+  * @example
+  * // using only default rule definitions
+  * var basicLinter = new Linter();
+  * @example
+  * // passing in customizations
+  * var myLinter = new Linter({api_version: false});
+  */
+function Linter(options) {
+  var log = new Log(),
+      rules = new Rules(log, options);
+
+  /**
+    * @callback LinterCallback
+    * @description
+    * The function to handle the results of linting the RAML document.
+    * @arg {LogEntry[]} results
+    */
+
+  /**
+    * @description
+    * Run all rules on the provided RAML document.
+    * @arg {string} raml - the RAML document as a string or filepath.
+    * @arg {LinterCallback} callback - the callback to receive the linting results.
+    * @example
+    * basicLinter.lint(myRAML, function (results) {
+    *   // check results for entries; if none, no errors were encountered
+    * });
+    */
+  this.lint = function lint(raml, callback) {
+    log.empty();
+
+    // when the parser is done send back the log to indicate failure/success
+    function resolve() {
+      callback(log.read('error'));
+    }
+
+    return parser
+      .parse(raml)
+      .then(lintRoot.bind(this, rules), log.raw)
+      .finally(resolve);
+  };
+
+  /**
+    * @description
+    * Provide a way to get all results in log; the callback in the {@link Linter#lint}
+    * method only returns errors by default to be permissive of customizations.
+    * @see {@link Log#read}
+    * @example
+    * // while this is possible, it is probably less helpful than the next example
+    * myLinter.results(); // returns an array of all log entries collected
+    * @example
+    * myLingter.lint(myRAML, function () {
+    *   // ignoring callback argument
+    *
+    *   // using the collection of all log entries for this round of linting
+    *   myLinter.results(); // returns all log entries
+    * });
+    */
+  this.results = log.read;
 }
 
 /* istanbul ignore else */

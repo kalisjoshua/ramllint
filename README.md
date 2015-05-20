@@ -1,3 +1,7 @@
+[![Coverage Status](https://coveralls.io/repos/QuickenLoans/ramllint/badge.svg)](https://coveralls.io/r/QuickenLoans/ramllint)
+
+[![Build Status](https://travis-ci.org/QuickenLoans/ramllint.svg)](https://travis-ci.org/QuickenLoans/ramllint)
+
 [RAML](http://raml.org) is a language for modeling RESTful APIs. By design,
 it does not enforce any style rules on how to consistently document APIs,
 because not all projects will require the same level of rule enforcement.

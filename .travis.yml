@@ -5,3 +5,4 @@ node_js:
   - "1.7.1"
 script:
   - npm test
+  - npm run coveralls

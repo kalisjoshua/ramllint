@@ -26,15 +26,18 @@
     "raml2obj": "^2.0.0"
   },
   "devDependencies": {
+    "coveralls": "^2.11.2",
     "eslint": "^0.20.0",
     "istanbul": "^0.3.13",
     "jsdoc": "^3.3.0-beta3",
     "jshint": "^2.7.0",
     "mocha": "^2.2.4",
+    "mocha-lcov-reporter": "0.0.2",
     "plato": "^1.4.0"
   },
   "scripts": {
     "coverage": "istanbul cover --dir docs/coverage _mocha",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "doc": "jsdoc -c ./conf.json src/**.js",
     "doc-pub": "git subtree push --prefix=docs upstream gh-pages",
     "predoc-pub": "npm run doc",

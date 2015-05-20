@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/QuickenLoans/ramllint.svg)](https://travis-ci.org/QuickenLoans/ramllint)
-[![GitHub version](https://badge.fury.io/gh/QuickenLoans%2Framllint.svg)](http://badge.fury.io/gh/QuickenLoans%2Framllint)
 [![Coverage Status](https://coveralls.io/repos/QuickenLoans/ramllint/badge.svg?branch=master)](https://coveralls.io/r/QuickenLoans/ramllint?branch=master)
 [![Dependency Status](https://img.shields.io/david/QuickenLoans/ramllint.svg?style=flat-rounded)](https://david-dm.org/QuickenLoans/ramllint)
 
+[![NPM](https://nodei.co/npm/ramllint.png)](https://npmjs.org/package/ramllint)
 
 [RAML](http://raml.org) is a language for modeling RESTful APIs. By design,
 it does not enforce any style rules on how to consistently document APIs,

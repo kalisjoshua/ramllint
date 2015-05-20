@@ -1,0 +1,7 @@
+install:
+  - npm install
+language: node_js
+node_js:
+  - "1.7.1"
+script:
+  - npm test

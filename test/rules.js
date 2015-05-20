@@ -1,6 +1,6 @@
 var assert = require('assert'),
     Log = require('../src/log.js'),
-    Rules = require('../src/Rules.js'),
+    Rules = require('../src/rules.js'),
 
     log = new Log(),
     config;

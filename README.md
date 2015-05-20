@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/QuickenLoans/ramllint.svg)](https://travis-ci.org/QuickenLoans/ramllint)
 [![Coverage Status](https://coveralls.io/repos/QuickenLoans/ramllint/badge.svg?branch=master)](https://coveralls.io/r/QuickenLoans/ramllint?branch=master)
 [![Dependency Status](https://img.shields.io/david/QuickenLoans/ramllint.svg?style=flat-rounded)](https://david-dm.org/QuickenLoans/ramllint)
+[![License Type](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
 [![NPM](https://nodei.co/npm/ramllint.png)](https://npmjs.org/package/ramllint)
 
@@ -92,7 +93,3 @@ Some information about the code is hosted on the gh-pages branch and served:
   1. [Code Documentation](http://QuickenLoans.github.io/ramllint/)
   2. [Code Coverage Report](http://QuickenLoans.github.io/ramllint/coverage/lcov-report/)
   3. [Static Code Analysis](http://QuickenLoans.github.io/ramllint/stats/)
-
-## License
-
-[MIT](LICENSE.md)

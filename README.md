@@ -14,56 +14,26 @@ group of related APIs to ensure consistency and uniformity across multiple teams
 or business units.
 
 RAML Linter is a static analysis, [linter-like](http://en.wikipedia.org/wiki/Lint_%28software%29),
-utility that will enforce rules (optionally) on a given RAML document, ensuring
+utility that will enforce rules on a given RAML document, ensuring
 consistency and quality.
 
-## Contributing
+## Installing
 
-  1. Fork this repository
-  2. `git clone`
-  3. `npm install`
-  4. `npm run coverage` (optional)
-  5. Create a working branch
-  6. Write code
-  7. Submit Pull Request
-
-### Contributions
-
-This project aims to maintain a high level of unit test code coverage. All pull
-requests must be accompanied by appropriate test cases, and all tests must pass
-in order to be considered for merge.
-
-For detailed rules on contributions, please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## (`npm`) Scripts
-
-Below is a list of commands available via npm (`package.json`).
-
-  + `npm run coverage` - runs all unit tests (Mocha) with code coverage (Istanbul)
-  + `npm run doc` - generate documentation pages (JSDoc)
-  + `npm run example` - runs a single example RAML document through the linter
-  + `npm run hint` - static code analysis (JSHint)
-  + `npm run lint` - static code analysis and code style linting (ESLint)
-  + `npm run quality` - runs lint and coverage
-  + `npm test` - runs unit tests (Mocha)
-  + `npm run test-w` - runs tests with additional flags, including --watch
-
-## Running
-
-@TODO: example using the CLI
+````
+npm install -g ramllint
+````
 
 ## Using the Linter
 
-There are two ways to use the RAML Linter. either as a library, or as a command
-line utility.
+RAML Linter can be used either as a library or as a command line utility.
 
 ### Library
 
-Using the library in code provides the most flexibility, including error
+Using the library in code provides the most flexibility, offering error
 handling and the ability to parse the full results for: `error`, `warning`, and
 `info` log entries.
 
-```
+```js
 var ramllint = require('ramllint'),
     ramlDocument = require('./path/to/api.raml');
 
@@ -87,10 +57,38 @@ This is a work in progress.
 ramllint src/api.raml
 ```
 
-## GH-Pages
+## (`npm`) Scripts
 
-Some information about the code is hosted on the gh-pages branch and served:
+Below is a list of commands available via npm (`package.json`).
+
+  + `npm run coverage` - runs all unit tests (Mocha) with code coverage (Istanbul)
+  + `npm run doc` - generate documentation pages (JSDoc)
+  + `npm run example` - runs a single example RAML document through the linter
+  + `npm run hint` - static code analysis (JSHint)
+  + `npm run lint` - static code analysis and code style linting (ESLint)
+  + `npm run quality` - runs lint and coverage
+  + `npm test` - runs unit tests (Mocha)
+  + `npm run test-w` - runs tests with additional flags, including --watch
+
+## Documentation
 
   1. [Code Documentation](http://QuickenLoans.github.io/ramllint/)
   2. [Code Coverage Report](http://QuickenLoans.github.io/ramllint/coverage/lcov-report/)
   3. [Static Code Analysis](http://QuickenLoans.github.io/ramllint/stats/)
+
+## Contributing
+
+  1. Fork this repository
+  2. `git clone`
+  3. `npm install`
+  4. `npm run coverage` (optional)
+  5. Create a working branch
+  6. Write code and tests
+  7. Submit Pull Request
+
+This project aims to maintain a high level of unit test code coverage. All pull
+requests must be accompanied by appropriate test cases, and all tests must pass
+in order to be considered for merge.
+
+For detailed rules on contributions, please refer to our
+[contribution guidelines](CONTRIBUTING.md).

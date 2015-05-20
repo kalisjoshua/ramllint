@@ -17,7 +17,7 @@
   "bin": {
     "ramllint": "./src/cli.js"
   },
-  "main": "src/ramllint.js",
+  "main": "src/linter.js",
   "dependencies": {
     "raml2obj": "^2.0.0"
   },

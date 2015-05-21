@@ -26,6 +26,7 @@
     "raml2obj": "^2.0.0"
   },
   "devDependencies": {
+    "codacy-coverage": "^1.1.0",
     "coveralls": "^2.11.2",
     "eslint": "^0.20.0",
     "istanbul": "^0.3.13",
@@ -36,16 +37,22 @@
     "plato": "^1.4.0"
   },
   "scripts": {
-    "coverage": "istanbul cover --dir docs/coverage _mocha",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "cover": "npm run cover:codacy && npm run cover:coveralls",
+    "precover": "istanbul cover _mocha --report lcovonly -- -R spec",
+    "postcover": "rm -rf ./coverage",
+    "cover:codacy": "cat ./coverage/lcov.info | ./node_modules/codacy-coverage/bin/codacy-coverage.js",
+    "cover:coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "doc": "jsdoc -c ./conf.json src/**.js",
-    "doc-pub": "git subtree push --prefix=docs upstream gh-pages",
-    "predoc-pub": "npm run doc",
-    "hint": "jshint src/**.js",
-    "lint": "npm run hint && eslint src/**.js",
-    "quality": "npm run lint && npm run coverage",
-    "stats": "plato -d docs/stats src/**.js",
+    "predoc": "rm -rf docs",
+    "postdoc": "npm run doc:coverage && npm run doc:stats",
+    "doc:coverage": "istanbul cover --dir docs/coverage _mocha",
+    "doc:pub": "git branch -D gh-pages && git push origin :gh-pages && git subtree push --prefix=docs upstream gh-pages && git fetch upstream gh-pages:gh-pages",
+    "predoc:pub": "npm run doc",
+    "doc:stats": ". regenerateStats.sh",
+    "predocs:stats": "rm -rf docs/stats",
+    "lint": "jshint src/**.js && eslint src/**.js",
     "test": "mocha",
-    "test-w": "npm test -- -R min -w --watch-extensions json"
+    "pretest": "npm run lint",
+    "watch": "npm test -- -R min -w --watch-extensions json"
   }
 }

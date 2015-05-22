@@ -52,10 +52,16 @@ ramllint('./path/to/api.raml', function (results) {
 
 ### Command Line
 
-This is a work in progress.
+If you are in the same directory as your RAML document:
 
 ```
-ramllint src/api.raml
+ramllint
+```
+
+If your RAML document is in another directory:
+
+```
+ramllint path/to/api.raml
 ```
 
 ## (`npm`) Scripts
@@ -65,15 +71,15 @@ Below is a list of commands available via `npm run` for you convenience:
   + `npm run cover` *for TravisCI only*
   + `npm run doc`
     1. Remove the `docs/` directory to start clean
-    2. Generate documentation pages (JSDoc) in `docs/`
-    3. Create code coverage report (Istanbul) `docs/coverage/lcov-report/`
-    4. Create code statistics report (Platojs) `docs/coverage/`
+    2. Generate documentation pages ([JSDoc](https://github.com/jsdoc3/jsdoc)) in `docs/`
+    3. Create code coverage report ([Istanbul](https://github.com/gotwarlost/istanbul)) `docs/coverage/lcov-report/`
+    4. Create code statistics report ([Plato](https://github.com/es-analysis/plato)) `docs/coverage/`
   + `npm run doc:pub` *for publishing `docs/` to gh-pages*
   + `npm run lint` - static code analysis and code style linting
-    1. JShint
-    2. ESlint
+    1. [JShint](https://github.com/jshint/jshint)
+    2. [ESlint](https://github.com/eslint/eslint)
   + `npm run quality` - runs `lint` and code coverage
-  + `npm test` - runs unit tests (Mocha)
+  + `npm test` - runs unit tests ([Mocha](https://github.com/mochajs/mocha))
   + `npm run watch` - watches `test/` and `src/` for changes and re-runs tests
 
 ## Documentation
@@ -87,10 +93,9 @@ Below is a list of commands available via `npm run` for you convenience:
   1. Fork this repository
   2. `git clone`
   3. `npm install`
-  4. `npm run coverage` (optional)
-  5. Create a working branch
-  6. Write code and tests
-  7. Submit Pull Request
+  4. Create a working branch
+  5. Write code and tests
+  6. Submit Pull Request
 
 This project aims to maintain a high level of unit test code coverage. All pull
 requests must be accompanied by appropriate test cases, and all tests must pass

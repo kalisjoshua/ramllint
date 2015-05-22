@@ -13,12 +13,14 @@ src=src
 head=$(git log -1 --pretty=oneline | awk '{print $1}')
 
 # start from nothing as the stats build over "time"
-rm -rf $dir
+rm -rf "$dir"
 
 # loop over the SHA-1s of all the merge commits to the master branch
 for i in $( git log --merges --first-parent --reverse --pretty=oneline | awk '{print $1}' ); do
-  # reset to sha
-  git reset --hard $i --
+  # remove the current source code to not taint results
+  rm -rf "$src"
+  # checkout sha version of the source code
+  git checkout $i -- "$src"
   # only add stats if there is a src/ directory; otherwise the stats will have errors
   if [ -d "$src" ]; then
     # get the date of the commit to make the stats report on the date of commit

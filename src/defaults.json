@@ -42,9 +42,11 @@
       "test": true
     },
     {
+      "hint": "/income_tax_documents (good)\n/incomeTaxDocuments (bad)\n/Income-Tax-Documents (bad)",
       "id":   "url_lower",
       "prop": "relativeUri",
-      "test": "^\\/([a-z]+(_[a-z]+)*|{[a-z]+(_[a-z]+)*})$"
+      "test": "^\\/([a-z]+(_[a-z]+)*|{[a-z]+(_[a-z]+)*})$",
+      "text": "RAML section ({section}) {property} violates: only lowercase letters and underscores allowed"
     }
   ],
 

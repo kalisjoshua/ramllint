@@ -79,14 +79,17 @@ ruleTypes = {
   * @returns {string} a log entry string
   */
 function format(section, rule) {
-  var result;
+  var prefix,
+      result;
 
-  result = '[$] RAML section ($) must include: $.'
-    .replace('$', rule.id)
-    .replace('$', section)
-    .replace('$', rule.prop);
+  prefix = '[$] '
+    .replace('$', rule.id);
 
-  return result;
+  result = (rule.text || 'RAML section ({section}) must include: {property}')
+    .replace(/{section}/, section)
+    .replace(/{property}/, rule.prop);
+
+  return prefix + result;
 }
 
 /**
@@ -187,10 +190,10 @@ Rules.prototype.run = function runRules(section, context) {
 
   function eachRule(rule) {
     if (rule.test === false) {
-      logger.info(section, rule.id, 'skipped ' + format(context.resource, rule), context.lintContext);
+      logger.info(section, rule, 'skipped ' + format(context.resource, rule), context.lintContext);
     } else {
       if (!passing(rule, context)) {
-        logger.error(section, rule.id, format(section, rule), context.lintContext);
+        logger.error(section, rule, format(section, rule), context.lintContext);
       }
     }
   }

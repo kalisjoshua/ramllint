@@ -79,6 +79,34 @@ describe('RAML Linter', function () {
     });
   });
 
+  it('should provide hints', function (done) {
+    var resource;
+
+    resource = failing
+      .filter(function (file) {
+
+        return /resource/i.test(file.name);
+      });
+
+    try {
+      // async
+      ramllint.lint(resource[0].doc, function (results) {
+        var hints;
+
+        hints = results
+          .some(function (entry) {
+
+            return entry.hint;
+          });
+
+        assert(hints, 'Some log entries should include hints.');
+        done();
+      });
+    } catch (e) {
+      done(e);
+    }
+  });
+
   it('should skip rules', function (done) {
     var myLinter = new Linter({api_version: false});
 

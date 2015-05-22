@@ -41,10 +41,11 @@ describe('log', function () {
     var result = [];
 
     while (count--) {
-      log[level]('/endpoint', 'fake_code', 'has ' + level, 'fake_entry');
+      log[level]('/endpoint', {id: 'fake_code'}, 'has ' + level, 'fake_entry');
 
       result.push({
         code: 'fake_code',
+        hint: void 0,
         level: level,
         message: 'has ' + level,
         rule: 'fake_entry',

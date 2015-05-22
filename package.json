@@ -51,6 +51,7 @@
     "doc:stats": ". regenerateStats.sh",
     "predocs:stats": "rm -rf docs/stats",
     "lint": "jshint src/**.js && eslint src/**.js",
+    "quality": "npm run lint && npm run precover && npm run postcover",
     "test": "mocha",
     "pretest": "npm run lint",
     "watch": "npm test -- -R min -w --watch-extensions json"

@@ -34,12 +34,13 @@ handling and the ability to parse the full results for: `error`, `warning`, and
 `info` log entries.
 
 ```js
-var ramllint = require('ramllint'),
-    ramlDocument = require('./path/to/api.raml');
+var Linter = require('ramllint'),
 
-ramllint(ramlDocument, function (results) {
-  // NOTE: results will only contain 'error' and will exclude 'warning' and 'info'
-  // to get an array of all log entries use: `ramllint.results()`
+    ramllint = new Linter();
+
+ramllint('./path/to/api.raml', function (results) {
+   // NOTE: results will only contain 'error' and will exclude 'warning' and 'info'
+   // to get an array of all log entries use: `ramllint.results()`
 
   if (!results.length) {
     // no errors, all rules are satisfied
@@ -59,16 +60,21 @@ ramllint src/api.raml
 
 ## (`npm`) Scripts
 
-Below is a list of commands available via npm (`package.json`).
+Below is a list of commands available via `npm run` for you convenience:
 
-  + `npm run coverage` - runs all unit tests (Mocha) with code coverage (Istanbul)
-  + `npm run doc` - generate documentation pages (JSDoc)
-  + `npm run example` - runs a single example RAML document through the linter
-  + `npm run hint` - static code analysis (JSHint)
-  + `npm run lint` - static code analysis and code style linting (ESLint)
-  + `npm run quality` - runs lint and coverage
+  + `npm run cover` *for TravisCI only*
+  + `npm run doc`
+    1. Remove the `docs/` directory to start clean
+    2. Generate documentation pages (JSDoc) in `docs/`
+    3. Create code coverage report (Istanbul) `docs/coverage/lcov-report/`
+    4. Create code statistics report (Platojs) `docs/coverage/`
+  + `npm run doc:pub` *for publishing `docs/` to gh-pages*
+  + `npm run lint` - static code analysis and code style linting
+    1. JShint
+    2. ESlint
+  + `npm run quality` - runs `lint` and code coverage
   + `npm test` - runs unit tests (Mocha)
-  + `npm run test-w` - runs tests with additional flags, including --watch
+  + `npm run watch` - watches `test/` and `src/` for changes and re-runs tests
 
 ## Documentation
 

@@ -48,7 +48,7 @@
     "doc:coverage": "istanbul cover --dir docs/coverage _mocha",
     "doc:pub": "git branch -D gh-pages && git push origin :gh-pages && git subtree push --prefix=docs upstream gh-pages && git fetch upstream gh-pages:gh-pages",
     "predoc:pub": "npm run doc",
-    "doc:stats": ". regenerateStats.sh",
+    "doc:stats": ". generateStats.sh",
     "predocs:stats": "rm -rf docs/stats",
     "lint": "jshint src/**.js && eslint src/**.js",
     "quality": "npm run lint && npm run precover && npm run postcover",

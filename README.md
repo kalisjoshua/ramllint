@@ -65,6 +65,8 @@ If your RAML document is in another directory:
 ramllint path/to/api.raml
 ```
 
+*Note: specifying the file (second example above) might be necessary for some OSes.*
+
 ## (`npm`) Scripts
 
 Below is a list of commands available via `npm run` for you convenience:

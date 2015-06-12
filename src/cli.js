@@ -23,23 +23,27 @@ ramllinter.lint(cli.args[0], function outputFn() {
 
   var STATUS;
 
-  STATUS = {
-    'error': colors.redBright,
-    'info': colors.cyanBright,
-    'warning': colors.magentaBright
-  };
+  if (ramllinter.results(cli.level).length === 0) {
+    console.log(colors.green('\nLooking good; no error(s) found.'));
+  } else {
+    STATUS = {
+      'error': colors.redBright,
+      'info': colors.cyanBright,
+      'warning': colors.magentaBright
+    };
 
-  ramllinter.results(cli.level)
-    .forEach(function entryFormat(entry) {
-      var output;
+    ramllinter.results(cli.level)
+      .forEach(function entryFormat(entry) {
+        var output;
 
-      output = '\n' +
-        STATUS[entry.level](entry.level) + ' ' +
-        entry.rule + '\n' +
-        '  ' + colors.white(entry.message) +
-        colors.blackBright(' [' + entry.code + ']') +
-        (entry.hint ? colors.cyanBright('\nHINT:\n') + entry.hint : '');
+        output = '\n' +
+          STATUS[entry.level](entry.level) + ' ' +
+          entry.rule + '\n' +
+          '  ' + colors.white(entry.message) +
+          colors.blackBright(' [' + entry.code + ']') +
+          (entry.hint ? colors.cyanBright('\nHINT:\n') + entry.hint : '');
 
-      console.log(output);
-    });
+        console.log(output);
+      });
+  }
 });

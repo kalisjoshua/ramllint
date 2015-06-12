@@ -1,6 +1,6 @@
 {
   "name": "ramllint",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "RAML Lint",
   "author": "Tyler Smith <TylerSmith@quickenloans.com",
   "contributors": [
@@ -22,6 +22,7 @@
   },
   "main": "src/linter.js",
   "dependencies": {
+    "cli-color": "^1.0.0",
     "commander": "^2.8.1",
     "raml2obj": "^2.0.0"
   },

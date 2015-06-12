@@ -74,6 +74,7 @@
 
   "root": [
     {
+      "hint": "version: 1",
       "id":   "api_version",
       "prop": "version",
       "test": true

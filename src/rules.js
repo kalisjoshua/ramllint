@@ -79,17 +79,13 @@ ruleTypes = {
   * @returns {string} a log entry string
   */
 function format(section, rule) {
-  var prefix,
-      result;
+  var result;
 
-  prefix = '[$] '
-    .replace('$', rule.id);
-
-  result = (rule.text || 'RAML section ({section}) must include: {property}')
+  result = (rule.text || 'RAML section - {section} - must include: {property}')
     .replace(/{section}/, section)
     .replace(/{property}/, rule.prop);
 
-  return prefix + result;
+  return result;
 }
 
 /**

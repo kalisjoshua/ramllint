@@ -65,11 +65,12 @@ function Log() {
     * @example
     * myLogger.info('resource', 'resource_desc', 'need a description', 'GET http://example.com/resource');
     */
-  function addEntry(level, section, code, message, locale) {
-    if ([section, code, message, locale].every(isDef)) {
+  function addEntry(level, section, rule, message, locale) {
+    if ([section, rule, message, locale].every(isDef)) {
       stack
         .push({
-          code: code,
+          code: rule.id,
+          hint: rule.hint,
           level: level,
           message: message,
           rule: locale,

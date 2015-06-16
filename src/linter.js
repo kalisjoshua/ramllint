@@ -92,11 +92,11 @@ function lintResource(rules, lintContext, context) {
 
   // attempt to recurse into the AST
   (context.methods || [])
-    .forEach(lintMethod.bind(this, rules, context.lintContext));
+    .forEach(lintMethod.bind(null, rules, context.lintContext));
 
   // attempt to recurse into the AST
   (context.resources || [])
-    .forEach(lintResource.bind(this, rules, context.lintContext));
+    .forEach(lintResource.bind(null, rules, context.lintContext));
 }
 
 /**
@@ -133,7 +133,7 @@ function lintRoot(rules, context) {
   rules.run('root', context);
 
   (context.resources || [])
-    .forEach(lintResource.bind(this, rules, context.lintContext));
+    .forEach(lintResource.bind(null, rules, context.lintContext));
 }
 
 /**

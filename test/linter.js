@@ -51,7 +51,7 @@ function hasError(haystack, needle) {
   return result;
 }
 
-describe('RAML Linter', function () {
+describe('RAML Linter - linter', function () {
   it('should be an object', function () {
     assert.equal('object', typeof ramllint);
   });

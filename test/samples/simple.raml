@@ -1,0 +1,20 @@
+#%RAML 0.8
+
+title: test
+baseUri: http://api.quickenloans.com
+version: 1
+
+schemas:
+  - example: !include example.schema.json
+
+/resource/{id}:
+  description: info
+  get:
+    description: collection GET
+    responses:
+      200:
+        description: success
+        body:
+          application/json:
+            example: !include example.json
+            schema:  example

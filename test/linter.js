@@ -16,16 +16,17 @@ failing = [
   'resource',
   'method',
   'response'
-].map(function (sect) {
-  // turn the above list, of strings, into objects with document contents available
-  return {
-    doc: fs.readFileSync('./test/samples/failing-$.raml'.replace('$', sect), 'utf8'),
+].reduce(function (acc, sect) {
+  acc[sect] = {
+    doc: './test/samples/failing-$.raml'.replace('$', sect),
     name: sect
   };
+
+  return acc;
 }, {});
 
 // this document will evolve as new rules are added but will always be valid.
-passing = fs.readFileSync('./test/samples/passing.raml', 'utf8');
+passing = './test/samples/passing.raml';
 
 // make an object the is helpful in automated testing; below.
 rules = Object.keys(defaults)
@@ -80,17 +81,9 @@ describe('RAML Linter - linter', function () {
   });
 
   it('should provide hints', function (done) {
-    var resource;
-
-    resource = failing
-      .filter(function (file) {
-
-        return /resource/i.test(file.name);
-      });
-
     try {
       // async
-      ramllint.lint(resource[0].doc, function (results) {
+      ramllint.lint(failing['root'].doc, function (results) {
         var hints;
 
         hints = results.read()
@@ -121,14 +114,18 @@ describe('RAML Linter - linter', function () {
     });
   });
 
-  failing
+  it('should throw errors for Linter async workflow errors', function () {
+    assert.throws(function () {
+      console.log('Ignore this error; intentionally thrown for testing.');
+      ramllint.errorWrap(null, null, function () {});
+    });
+    console.log('Stop ignoring.');
+  });
+
+  Object.keys(failing)
     .forEach(function (section) {
-      var doc = section.doc;
-
-      section = section.name;
-
       it('should fail in ' + section, function (done) {
-        ramllint.lint(doc, function (log) {
+        ramllint.lint(failing[section].doc, function (log) {
           var results;
 
           try {
@@ -147,8 +144,7 @@ describe('RAML Linter - linter', function () {
 
             done(); // async
           } catch (e) {
-            console.log(doc);
-            console.log(results);
+            //console.log(results);
             done(e); // this is stupid (node)assert/mochajs
           }
         });

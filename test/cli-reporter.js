@@ -1,16 +1,17 @@
 var assert = require('assert'),
+    strip = require('cli-color/strip'),
 
     reporter = require('../src/cli-reporter.js');
 
 function entry(level, section, rule, message, locale) {
   rule = rule || ({
-    hint: 'testing',
+    //hint: 'testing', // intentionally removed
     id: 'fake_id'
   });
 
   return {
       code: rule.id,
-      //hint: rule.hint,
+      hint: rule.hint,
       level: level || 'error',
       message: message || 'message',
       rule: locale || 'locale',
@@ -40,7 +41,7 @@ describe('CLI - reporter', function () {
 
     reporter(output.push.bind(output), 'error', reader([]));
 
-    assert.equal('\u001b[32m\nLooking good; no error(s) found.\u001b[39m', output[0]);
+    assert.equal('\nLooking good; no error(s) found.', strip(output[0]));
   });
 
   it('should report YAMLError', function () {
@@ -52,16 +53,33 @@ describe('CLI - reporter', function () {
 
     reporter(output.push.bind(output), 'error', reader([new YAMLError()]));
 
-    assert.equal('\u001b[91m\nInvalid RAML file: parse error.\u001b[39m', output[0]);
-    assert.equal(2, output.length);
+    assert.equal('\nInvalid RAML file: parse error.', strip(output[0]));
+    assert.equal('YAMLError', output[1]);
+    assert.equal('\nRAML Lint, finished.', strip(output[2]));
+    assert.equal(3, output.length);
   });
 
   it('should report an error', function () {
     var output = [];
 
-    reporter(output.push.bind(output), 'error', reader([entry()]));
+    reporter(function (entry) {
+      output.push(entry);
+    }, 'error', reader([entry()]));
 
-    assert.equal('\n\u001b[91merror\u001b[39m locale\n  \u001b[37mmessage\u001b[39m\u001b[90m [fake_id]\u001b[39m', output[0]);
-    assert.equal(1, output.length);
+    assert.equal('\nerror locale\n  message [fake_id]', strip(output[0]));
+    assert.equal(2, output.length);
+  });
+
+  it('should report a hint', function () {
+    var input = entry(),
+        output = [];
+
+    input.hint = 'Let me tell ya something.';
+    reporter(function (entry) {
+      output.push(entry);
+    }, 'error', reader([input]));
+
+    assert(output[0].indexOf('HINT') >= 0);
+    assert.equal(2, output.length);
   });
 });

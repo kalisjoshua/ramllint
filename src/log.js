@@ -1,6 +1,7 @@
 'use strict';
 
-var typeOf = require('./typeOf.js');
+var Rules = require('./rules.js'),
+    typeOf = require('./typeOf.js');
 
 // filter based on level
 function filterEntries(level, entry) {
@@ -17,8 +18,8 @@ function instanceLevelMethods(addEntry, name) {
 /**
   * @private
   * @description
-  * check for argument definition
-  * @arg {mixed} arg - any argument value
+  * Check for argument definition.
+  * @arg {Any} arg - any argument value.
   * @returns {boolean} whether the argument was defined as anything.
   */
 function isDef(arg) {
@@ -40,11 +41,11 @@ function Log() {
 
   /**
     * @typedef {object} LogEntry
-    * @prop {string} code - the unique identifier for the rule
-    * @prop {string} level - the level of error: `error`, `warning`, or `info`
-    * @prop {string} message - the "helpful" message to indicate the problem
-    * @prop {string} locale - the resource location within the RAML document
-    * @prop {string} section - the section "type" within the AST
+    * @prop {string} code - the unique identifier for the rule.
+    * @prop {Level} level - the level of error: `error`, `warning`, or `info`.
+    * @prop {string} message - the "helpful" message to indicate the problem.
+    * @prop {string} locale - the resource location within the RAML document.
+    * @prop {string} section - the section "type" within the AST.
     */
 
   /**
@@ -53,7 +54,7 @@ function Log() {
     * Primary method for logging, made available as instance methods named for
     * the levels of logging available; those methods have the first argument
     * provided automatically.
-    * @arg {string} level - automatically provided, will never be passed by user
+    * @arg {Level} level - automatically provided, will never be passed by user
     * @arg {string} section - the section within the document entry originated
     * @arg {string} code - uniquge identifier of the rule for the entry
     * @arg {string} message - the (possibly) helpful message to the user
@@ -78,6 +79,7 @@ function Log() {
           section: section
         });
     } else {
+      //console.error(arguments);
       throw new Error('Missing arguments calling log.$().'.replace('$', level));
     }
   }
@@ -112,7 +114,7 @@ function Log() {
     * @see {@link Log~addEntry}
     */
   // add methods to public-facing api for each of these
-  this.getLevels()
+  Rules.getLevels()
     .forEach(instanceLevelMethods.bind(this, addEntry));
 
   /**
@@ -137,7 +139,7 @@ function Log() {
   /**
     * @description
     * Retrieve the entries; for the level indicated, or all of them.
-    * @arg {string} [level] - if provided, only include entries that match
+    * @arg {Level} [level] - if provided, only include entries that match
     * @returns {LogEntry[]} An array of {@link LogEntry}
     */
   this.read = function readLog(level) {
@@ -148,29 +150,6 @@ function Log() {
 
   this.empty();
 }
-
-/**
-  * @description
-  * This function provided to supply an order list of logging levels in descending
-  * order of severity. This will allow the ability to retrieve log entries based
-  * on criteria more complex than a simple string match; 'filter the log for entries
-  * (greater|lesser) than (or equal to) a given level'.
-  * @returns {array} a list of all logging levels; in descending order of severity
-  * @example
-  * // this is the constructor (function); not an instance of it
-  * Log.getLevels(); // returns ['error', 'warning', 'info']
-  */
-Log.getLevels = function getLevels() {
-
-  return ['error', 'warning', 'info'];
-};
-
-/**
-  * @see {@link Log.getLevels}
-  * @example
-  * myLoggerInstance.getLevels(); // returns ['error', 'warning', 'info']
-  */
-Log.prototype.getLevels = Log.getLevels;
 
 /* istanbul ignore else */
 if (typeOf(exports, 'object')) {

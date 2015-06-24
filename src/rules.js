@@ -3,20 +3,25 @@
 var defaults = require('./defaults.json'),
     typeOf = require('./typeOf.js'),
 
+    LEVELS,
     ruleTypes;
 
 /**
-  * @typedef {object} Context
+  * @typedef {string} Level
+  * @readonly
   * @description
-  * A node from within the AST of a RAML document provided by the raml2obj library.
-  * Since all nodes within the AST are not the same the properties available are
-  * variable but are consistent with sections of the AST; `resource`s should be
-  * consistent with other `resource`s, but a `response` would not necessarily be
-  * consistent with any other section context and vice-versa.
-  * @property {string} lintContext
-  * a progressively expressive identifier for where in the RAML the current
-  * context is; used for log entries for helpful reporting
+  * A string representing the level of severity for a rule; rules define their
+  * level of reporting.
+  * @enum {string}
   */
+LEVELS = [
+  /** a rule that should NOT be violated */
+  'error',
+  /** a rule that might be a problem */
+  'warning',
+  /** a rule just for outputting information */
+  'info'
+];
 
 /**
   * @typedef {object} Rule
@@ -26,10 +31,13 @@ var defaults = require('./defaults.json'),
   * @property {object} prereq - collection of named prerequisite(s) based on properties
   * @property {string} prop - the name of the property in the AST to validate
   * @property {(array|boolean|string)} test
-  * Explanation of possible values:
+  *
+  * **Possible values are:**
+  *
   *   - (array) A list of valid - string - values
-  *   - (boolean) `false` indicates a skipped test
-  *   - (boolean) `true` validates any value
+  *   - (boolean)
+  *     + `false` indicates a skipped test
+  *     + `true` validates any value
   *   - (string) A string, that will be passed to RegExp()
   */
 
@@ -74,9 +82,9 @@ ruleTypes = {
   * @private
   * @description
   * Format a message for log entry.
-  * @arg {string} section - indicates the section of the RAML document
-  * @arg {object} rule - an Options entry including: id, and prop
-  * @returns {string} a log entry string
+  * @arg {Section} section - indicates the section of the RAML document.
+  * @arg {object} rule - an Options entry including: id, and prop.
+  * @returns {string} a log entry string.
   */
 function format(section, rule) {
   var result;
@@ -92,8 +100,8 @@ function format(section, rule) {
   * @private
   * @description
   * Merge custom options with defaults; used in Array.map().
-  * @arg {Options} options - default override options
-  * @arg {object} rule - instance within defaults
+  * @arg {Options} options - default override options.
+  * @arg {object} rule - instance within defaults.
   * @returns {object} A copy of the default rule customized optionally.
   */
 function mapRules(options, rule) {
@@ -117,50 +125,22 @@ function mapRules(options, rule) {
   * @private
   * @description
   * Check the type of test and run.
-  * @arg {mixed} test - value of the test prop in rules
-  * @arg {mixed} value - value from the AST
-  * @returns {boolean} whether or not the value satisfies the test
+  * @arg {mixed} test - value of the test prop in rules.
+  * @arg {mixed} value - value from the AST.
+  * @returns {boolean} whether or not the value satisfies the test.
   */
 function passes(test, value) {
-  var type = typeOf(test);
 
-  return type in ruleTypes && ruleTypes[type](test, value);
-}
-
-/**
-  * @private
-  * @description
-  * Check for prerequisite test(s) or regular test.
-  * @arg {object} rule - instance within options object
-  * @arg {Context} context - object from within AST
-  * @returns {boolean} whether or not the context satisfies the rule
-  */
-function passing(rule, context) {
-  var result;
-
-  if (rule.prereq) {
-    result = Object.keys(rule.prereq)
-      .reduce(function prereqReduce(acc, key) {
-        if (acc && passes(rule.prereq[key], context[key])) {
-          acc = passes(rule.test, context[rule.prop]);
-        }
-
-        return acc;
-      }, true);
-  } else {
-    result = passes(rule.test, context[rule.prop]);
-  }
-
-  return result;
+  return ruleTypes[typeOf(test)](test, value && value.value);
 }
 
 /**
   * @constructor
   * @description
-  * Create an object holding all rules and provides the capability to run them
+  * Create an object holding all rules and provides the capability to run them.
   * against contexts of an AST.
-  * @arg {Log} logger - an instance of Log to keep track of entries
-  * @arg {Options} options - external customization of rules
+  * @arg {Log} logger - an instance of Log to keep track of entries.
+  * @arg {Options} options - external customization of rules.
   */
 function Rules(logger, options) {
   this.rules = Object.keys(defaults)
@@ -174,22 +154,42 @@ function Rules(logger, options) {
   this.logger = logger;
 }
 
+Rules.getLevels = [].slice.bind(LEVELS, 0);
+
 /**
   * @description
   * Instance method to execute rules per section.
-  * @arg {Section} section - the name of the section to run rules against
-  * @arg {Context} context - the context to run rules against
+  * @arg {Section} section - the name of the section to run rules against.
+  * @arg {Context} context - the context to run rules against.
   */
 Rules.prototype.run = function runRules(section, context) {
   // locals here, to prevent the need to #bind() the function in the forEach
   var logger = this.logger;
 
   function eachRule(rule) {
-    if (rule.test === false) {
-      logger.info(section, rule, 'skipped ' + format(context.resource, rule), context.lintContext);
+    var isPassing,
+        prereq = false,
+        temp = passes(rule.test, context[rule.prop]);
+
+    if (rule.prereq) {
+      prereq = Object.keys(rule.prereq)
+        .some(function prereqReduce(property) {
+
+          return passes(rule.prereq[property], context[property]);
+        });
+
+      // the test results are null if the context doesn't satisfy the prereq
+      isPassing = prereq ? temp : true;
     } else {
-      if (!passing(rule, context)) {
-        logger.error(section, rule, format(section, rule), context.lintContext);
+      isPassing = temp;
+    }
+
+
+    if (rule.test === false) {
+      logger.info(section, rule, 'skipped ' + format(context.resource, rule), context.scope);
+    } else {
+      if (!isPassing) {
+        logger.error(section, rule, format(section, rule), context.scope);
       }
     }
   }

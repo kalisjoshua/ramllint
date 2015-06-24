@@ -24,7 +24,7 @@
   "dependencies": {
     "cli-color": "^1.0.0",
     "commander": "^2.8.1",
-    "raml2obj": "^2.0.0"
+    "raml-parser": "^0.8.11"
   },
   "devDependencies": {
     "codacy-coverage": "^1.1.0",

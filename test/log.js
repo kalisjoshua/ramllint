@@ -123,10 +123,6 @@ describe('RAML Linter - log', function () {
     assert.deepEqual(actual, log.read('info warning'));
   });
 
-  it('should provide a list of levels', function () {
-    assert.deepEqual(['error', 'warning', 'info'], log.getLevels());
-  });
-
   it('should throw errors when arguments are omitted', function () {
     assert.throws(function () {
       log.info();

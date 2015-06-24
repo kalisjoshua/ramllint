@@ -21,6 +21,10 @@ describe('RAML Linter - Rules', function () {
     assert.equal('function', typeof config.run);
   });
 
+  it('should provide a list of levels', function () {
+    assert.deepEqual(['error', 'warning', 'info'], Rules.getLevels());
+  });
+
   it('should create isolated instances', function () {
     var custom = new Rules(log, {api_version: false}),
         standard = new Rules(log);

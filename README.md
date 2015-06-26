@@ -4,6 +4,8 @@
 [![Code Climate](https://codeclimate.com/github/QuickenLoans/ramllint/badges/gpa.svg)](https://codeclimate.com/github/QuickenLoans/ramllint)
 [![Dependency Status](https://img.shields.io/david/QuickenLoans/ramllint.svg?style=flat-rounded)](https://david-dm.org/QuickenLoans/ramllint)
 [![License Type](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+[![Join the chat at https://gitter.im/QuickenLoans/ramllint](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/QuickenLoans/ramllint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 [![NPM](https://nodei.co/npm/ramllint.png)](https://npmjs.org/package/ramllint)
 

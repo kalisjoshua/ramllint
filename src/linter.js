@@ -1,7 +1,6 @@
 'use strict';
 
-var Log = require('./log.js'),
-    parser = require('./ast-parser.js'),
+var parser = require('./ast-parser.js'),
     Rules = require('./rules.js'),
     typeOf = require('./typeOf.js'),
     valueOf = require('./ast-valueOf.js');
@@ -35,6 +34,24 @@ var Log = require('./log.js'),
   *   ]
   * }
   */
+
+/**
+  * @description
+  * Catch developer/development error(s). Errors that fail silently are
+  * extremely frustrating and counter-productive.
+  * @arg {Rule} rules - instance of Rules containing default and custom rules.
+  * @arg {Context} context - current (method) object location within AST.
+  */
+function errorWrap(rules, root) {
+  // catch errors within the async flow
+  try {
+    lintRoot(rules, root);
+  } catch (e) {
+    // output the error to make it visible while developing
+    console.log(e);
+    throw e;
+  }
+}
 
 /**
   * @private
@@ -77,6 +94,7 @@ function lintMethod(rules, parent, context) {
   var method = valueOf(context, 'method', '').toUpperCase(),
       space = new Array(8 - method.length).join(' ');
 
+  context.parent = parent;
   context.scope = method + space + parent.scope;
 
   flattenExamplesAndSchemas(context);
@@ -100,6 +118,7 @@ function lintMethod(rules, parent, context) {
   * @arg {Context} context - current (resource) object location within AST.
   */
 function lintResource(rules, parent, context) {
+  context.parent = parent;
   context.scope = parent.scope + valueOf(context, 'relativeUri', '');
 
   // evaluate all rules for this level of the AST
@@ -124,6 +143,7 @@ function lintResource(rules, parent, context) {
   * @arg {Context} context - current (response) object location within AST.
   */
 function lintResponse(rules, code, parent, context) {
+  context.parent = parent;
   context.scope = parent.scope + ' ' + valueOf(context, 'code', '');
 
   flattenExamplesAndSchemas(context);
@@ -140,6 +160,7 @@ function lintResponse(rules, code, parent, context) {
   * @arg {Context} context - current (root) object location within AST.
   */
 function lintRoot(rules, context) {
+  context.parent = null;
   context.scope = valueOf(context, 'baseUri', '');
 
   rules.run('root', context);
@@ -161,15 +182,13 @@ function lintRoot(rules, context) {
   * // passing in customizations
   * var myLinter = new Linter({api_version: false});
   */
-function Linter(options) {
-  var log = new Log(),
-      rules = new Rules(log, options);
+function Linter(log, options) {
+  var rules = new Rules(log, options);
 
   /**
     * @callback LinterCB
     * @description
-    * The function to handle the results of linting the RAML document.
-    * @arg {Log} log
+    * Called to indicate the end of linting.
     */
 
   /**
@@ -186,32 +205,18 @@ function Linter(options) {
     * });
     */
   this.lint = function lint(raml, callback) {
-    log.empty();
 
     return parser
       .parse(raml)
-      .then(this.errorWrap.bind(this, rules), log.raw)
-      .finally(callback.bind(this, log));
+      .then(errorWrap.bind(this, rules), log)
+      .finally(callback);
   };
 }
 
 /**
-  * @description
-  * Catch developer/development error(s). Errors that fail silently are
-  * extremely frustrating and counter-productive.
-  * @arg {Rule} rules - instance of Rules containing default and custom rules.
-  * @arg {Context} context - current (method) object location within AST.
+  * @see errorWrap
   */
-Linter.prototype.errorWrap = function errorWrap(rules, root) {
-  // catch errors within the async flow
-  try {
-    lintRoot(rules, root);
-  } catch (e) {
-    // output the error to make it visible while developing
-    console.log(e);
-    throw e;
-  }
-};
+Linter.prototype.errorWrap = errorWrap;
 
 /* istanbul ignore else */
 if (typeOf(exports, 'object')) {

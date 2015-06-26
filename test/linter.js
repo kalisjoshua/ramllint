@@ -6,9 +6,7 @@ var assert = require('assert'),
 
     failing,
     passing,
-    rules,
-
-    ramllint = new Linter();
+    rules;
 
 /* NOTE: these are in priority order of nesting within a RAML document */
 failing = [
@@ -53,65 +51,58 @@ function hasError(haystack, needle) {
 }
 
 describe('RAML Linter - linter', function () {
-  it('should be an object', function () {
-    assert.equal('object', typeof ramllint);
+  var ramllint;
+
+  it('should be an (constructor) function', function () {
+    assert.equal('function', typeof Linter);
+    assert.equal('object', typeof new Linter());
   });
 
   it('should fail with parse_error', function () {
-    // async
-    return ramllint.lint('', function (log) {
-      var result = log.read();
+    ramllint = new Linter(function (error) {
+      assert.equal('YAMLError', error.name);
+    });
 
-      assert.equal(result.length, 1);
-      assert.equal(result[0].name, 'YAMLError');
+    // async
+    return ramllint.lint('', function noop() {});
+  });
+
+  it('should pass on valid RAML', function () {
+    var counter = 0;
+
+    ramllint = new Linter(function () {
+      counter++;
+    });
+
+    // async
+    return ramllint.lint(passing, function () {
+      assert.equal(0, counter);
     });
   });
 
-  it('should pass on valid RAML', function (done) {
-    // async
-    ramllint.lint(passing, function (log) {
-      try {
-        assert.equal(log.read().length, 0);
-        done();
-      } catch (e) {
-        //console.log(passing);
-        done(e);
+  it('should provide hints', function () {
+    var counter = 0;
+
+    ramllint = new Linter(function (section, rule, context) {
+      if (!counter && rule.hint) {
+        counter++;
       }
     });
-  });
 
-  it('should provide hints', function (done) {
-    try {
-      // async
-      ramllint.lint(failing['root'].doc, function (results) {
-        var hints;
-
-        hints = results.read()
-          .some(function (entry) {
-
-            return entry.hint;
-          });
-
-        assert(hints, 'Some log entries should include hints.');
-        done();
-      });
-    } catch (e) {
-      done(e);
-    }
-  });
-
-  it('should skip rules', function (done) {
-    var myLinter = new Linter({api_version: false});
-
-    myLinter.lint(passing, function (log) {
-      try {
-        assert.equal(log.read('error').length, 0);
-        assert(hasError(log.read(), 'api_version'));
-        done();
-      } catch (e) {
-        done(e);
-      }
+    // async
+    return ramllint.lint(passing, function () {
+      assert.equal(0, counter);
     });
+  });
+
+  it('should allow overriding of defaults', function () {
+    ramllint = new Linter(function (section, rule, context) {
+      if (rule.id === 'api_version') {
+        assert.equal(false, rule.test);
+      }
+    }, {api_version: false});
+
+    ramllint.lint(passing, function noop() {});
   });
 
   it('should throw errors for Linter async workflow errors', function () {
@@ -122,31 +113,36 @@ describe('RAML Linter - linter', function () {
     console.log('Stop ignoring.');
   });
 
+  // 1. (positive) check that all defined rules for section are not passing
+  // 2. (negative) check that no other errors are reported for section
+  // 3. (negative) check that errors for previous sections are not reported
   Object.keys(failing)
-    .forEach(function (section) {
-      it('should fail in ' + section, function (done) {
-        ramllint.lint(failing[section].doc, function (log) {
-          var results;
+    .forEach(function (sect) {
+      it('should fail in ' + sect, function () {
+        var counter = 0,
+            expected = rules[sect].length;
 
-          try {
-            results = log.read();
+        ramllint = new Linter(function (section, rule, context) {
+          counter++;
 
-            // 1. (positive) check that all defined rules for section are not passing
-            rules[section]
-              .forEach(function (rule) {
-                assert(hasError(results, rule), 'The error log should include an error for: ' + rule);
-              });
+          // #1 - part one
+          (function (indx) {
+            rules[sect] = rules[sect]
+              .slice(0, indx)
+              .concat(rules[sect].slice(indx + 1));
+          }(rules[sect].indexOf(rule.id)));
 
-            // 2. (negative) check that no other errors are reported for section
-            assert.equal(results.length, rules[section].length, 'Length of error report does not match expected length.');
+          // #3
+          assert.equal(sect, section);
+        });
 
-            // 3. (negative) check that errors for previous sections are not reported
+        return ramllint.lint(failing[sect].doc, function () {
+          // #1 - part two
+          assert.deepEqual([], rules[sect]);
+          assert.deepEqual(0, rules[sect].length);
 
-            done(); // async
-          } catch (e) {
-            //console.log(results);
-            done(e); // this is stupid (node)assert/mochajs
-          }
+          // #2
+          assert.equal(expected, counter);
         });
       });
     });

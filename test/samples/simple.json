@@ -1,75 +1,237 @@
 {
   "title": {
-    "location": "line 3: column 8",
+    "location": {
+      "begin": {
+        "column": 8,
+        "line": 3
+      },
+      "end": {
+        "column": 12,
+        "line": 3
+      }
+    },
     "value": "test"
   },
   "baseUri": {
-    "location": "line 4: column 10",
+    "location": {
+      "begin": {
+        "column": 10,
+        "line": 4
+      },
+      "end": {
+        "column": 37,
+        "line": 4
+      }
+    },
     "value": "http://api.quickenloans.com"
   },
   "version": {
-    "location": "line 5: column 10",
+    "location": {
+      "begin": {
+        "column": 10,
+        "line": 5
+      },
+      "end": {
+        "column": 11,
+        "line": 5
+      }
+    },
     "value": "1"
   },
   "schemas": {
-    "location": "line 8: column 3",
+    "location": {
+      "begin": {
+        "column": 3,
+        "line": 8
+      },
+      "end": {
+        "column": 1,
+        "line": 10
+      }
+    },
     "value": [
       {
         "example": {
-          "location": "line 8: column 14",
+          "location": {
+            "begin": {
+              "column": 14,
+              "line": 8
+            },
+            "end": {
+              "column": 42,
+              "line": 8
+            }
+          },
           "value": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"id\": \"http://jsonschema.net\",\n  \"type\": \"object\",\n  \"properties\": {}\n}\n"
         }
       }
     ]
   },
   "protocols": {
-    "location": "line 3: column 1",
+    "location": {
+      "begin": {
+        "column": 1,
+        "line": 3
+      },
+      "end": {
+        "column": 1,
+        "line": 21
+      }
+    },
     "value": [
       "HTTP"
     ]
   },
   "resources": {
-    "location": "line 10: column 1",
+    "location": {
+      "begin": {
+        "column": 1,
+        "line": 10
+      },
+      "end": {
+        "column": 1,
+        "line": 21
+      }
+    },
     "value": [
       {
         "description": {
-          "location": "line 11: column 16",
+          "location": {
+            "begin": {
+              "column": 16,
+              "line": 11
+            },
+            "end": {
+              "column": 20,
+              "line": 11
+            }
+          },
           "value": "info"
         },
         "relativeUri": {
-          "location": "line 10: column 1",
+          "location": {
+            "begin": {
+              "column": 1,
+              "line": 10
+            },
+            "end": {
+              "column": 1,
+              "line": 21
+            }
+          },
           "value": "/resource/{id}"
         },
         "methods": {
-          "location": "line 12: column 3",
+          "location": {
+            "begin": {
+              "column": 3,
+              "line": 12
+            },
+            "end": {
+              "column": 1,
+              "line": 21
+            }
+          },
           "value": [
             {
               "description": {
-                "location": "line 13: column 18",
+                "location": {
+                  "begin": {
+                    "column": 18,
+                    "line": 13
+                  },
+                  "end": {
+                    "column": 32,
+                    "line": 13
+                  }
+                },
                 "value": "collection GET"
               },
               "responses": {
-                "location": "line 15: column 7",
+                "location": {
+                  "begin": {
+                    "column": 7,
+                    "line": 15
+                  },
+                  "end": {
+                    "column": 1,
+                    "line": 21
+                  }
+                },
                 "value": {
                   "200": {
-                    "location": "line 16: column 9",
+                    "location": {
+                      "begin": {
+                        "column": 9,
+                        "line": 16
+                      },
+                      "end": {
+                        "column": 1,
+                        "line": 21
+                      }
+                    },
                     "value": {
                       "description": {
-                        "location": "line 16: column 22",
+                        "location": {
+                          "begin": {
+                            "column": 22,
+                            "line": 16
+                          },
+                          "end": {
+                            "column": 29,
+                            "line": 16
+                          }
+                        },
                         "value": "success"
                       },
                       "body": {
-                        "location": "line 18: column 11",
+                        "location": {
+                          "begin": {
+                            "column": 11,
+                            "line": 18
+                          },
+                          "end": {
+                            "column": 1,
+                            "line": 21
+                          }
+                        },
                         "value": {
                           "application/json": {
-                            "location": "line 19: column 13",
+                            "location": {
+                              "begin": {
+                                "column": 13,
+                                "line": 19
+                              },
+                              "end": {
+                                "column": 1,
+                                "line": 21
+                              }
+                            },
                             "value": {
                               "schema": {
-                                "location": "line 20: column 22",
+                                "location": {
+                                  "begin": {
+                                    "column": 22,
+                                    "line": 20
+                                  },
+                                  "end": {
+                                    "column": 29,
+                                    "line": 20
+                                  }
+                                },
                                 "value": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"id\": \"http://jsonschema.net\",\n  \"type\": \"object\",\n  \"properties\": {}\n}\n"
                               },
                               "example": {
-                                "location": "line 19: column 22",
+                                "location": {
+                                  "begin": {
+                                    "column": 22,
+                                    "line": 19
+                                  },
+                                  "end": {
+                                    "column": 43,
+                                    "line": 19
+                                  }
+                                },
                                 "value": "{}\n"
                               }
                             }
@@ -81,13 +243,31 @@
                 }
               },
               "protocols": {
-                "location": "line 3: column 1",
+                "location": {
+                  "begin": {
+                    "column": 1,
+                    "line": 3
+                  },
+                  "end": {
+                    "column": 1,
+                    "line": 21
+                  }
+                },
                 "value": [
                   "HTTP"
                 ]
               },
               "method": {
-                "location": "line 12: column 3",
+                "location": {
+                  "begin": {
+                    "column": 3,
+                    "line": 12
+                  },
+                  "end": {
+                    "column": 1,
+                    "line": 21
+                  }
+                },
                 "value": "get"
               }
             }

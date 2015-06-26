@@ -1,11 +1,13 @@
 var assert = require('assert'),
-    Log = require('../src/log.js'),
+
     Rules = require('../src/rules.js'),
 
-    log = new Log(),
-    config;
+    config,
+    log = [];
 
-config = new Rules(log);
+config = new Rules(function (section, rule, context) {
+  log.push([section, rule, context]);
+});
 
 describe('RAML Linter - Rules', function () {
   it('should be an function', function () {

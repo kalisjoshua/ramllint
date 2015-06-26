@@ -81,24 +81,6 @@ ruleTypes = {
 /**
   * @private
   * @description
-  * Format a message for log entry.
-  * @arg {Section} section - indicates the section of the RAML document.
-  * @arg {object} rule - an Options entry including: id, and prop.
-  * @returns {string} a log entry string.
-  */
-function format(section, rule) {
-  var result;
-
-  result = (rule.text || 'RAML section - {section} - must include: {property}')
-    .replace(/{section}/, section)
-    .replace(/{property}/, rule.prop);
-
-  return result;
-}
-
-/**
-  * @private
-  * @description
   * Merge custom options with defaults; used in Array.map().
   * @arg {Options} options - default override options.
   * @arg {object} rule - instance within defaults.
@@ -163,12 +145,9 @@ Rules.getLevels = [].slice.bind(LEVELS, 0);
   * @arg {Context} context - the context to run rules against.
   */
 Rules.prototype.run = function runRules(section, context) {
-  // locals here, to prevent the need to #bind() the function in the forEach
-  var logger = this.logger;
-
   function eachRule(rule) {
-    var isPassing,
-        prereq = false,
+    var isPassing = false,
+        prereq,
         temp = passes(rule.test, context[rule.prop]);
 
     if (rule.prereq) {
@@ -178,24 +157,19 @@ Rules.prototype.run = function runRules(section, context) {
           return passes(rule.prereq[property], context[property]);
         });
 
-      // the test results are null if the context doesn't satisfy the prereq
+      // the test automatically passes if the prereq is not satisfied
       isPassing = prereq ? temp : true;
     } else {
       isPassing = temp;
     }
 
-
-    if (rule.test === false) {
-      logger.info(section, rule, 'skipped ' + format(context.resource, rule), context.scope);
-    } else {
-      if (!isPassing) {
-        logger.error(section, rule, format(section, rule), context.scope);
-      }
+    if (!isPassing || rule.test === false) {
+      this.logger(section, rule, context);
     }
   }
 
   this.rules[section]
-    .forEach(eachRule);
+    .forEach(eachRule.bind(this));
 };
 
 /* istanbul ignore else */

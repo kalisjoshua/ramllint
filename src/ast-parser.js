@@ -33,7 +33,8 @@ var raml = require('raml-parser'),
   */
 function astParser(filepath) {
 
-  return raml.composeFile(filepath)
+  return raml
+    .composeFile(filepath)
     .then(parse);
 }
 
@@ -101,9 +102,16 @@ function recurse(obj) {
 function simple(obj) {
 
   return {
-      location: 'line #: column #'
-        .replace('#', 1 + obj.start_mark.line)
-        .replace('#', 1 + obj.start_mark.column),
+      location: {
+        begin: {
+          column: 1 + obj.start_mark.column,
+          line: 1 + obj.start_mark.line
+        },
+        end: {
+          column: 1 + obj.end_mark.column,
+          line: 1 + obj.end_mark.line
+        }
+      },
       value: (/(?:int|str)$/)
         .test(obj.tag) ? obj.value : parse(obj)
     };

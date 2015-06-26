@@ -5,9 +5,9 @@ var cli = require('commander'),
 
     Linter = require('./linter.js'),
     project = require('../package.json'),
-    reporter = require('./cli-reporter.js'),
+    reporter = require('./cli-reporter.js')(),
 
-    ramllinter = new Linter();
+    ramllinter = new Linter(reporter.entry);
 
 cli
   .option('-r, --raml <file>', 'the RAML file to lint', './api.raml')
@@ -20,4 +20,10 @@ function print(str) {
   console.log(str);
 }
 
-ramllinter.lint(cli.args[0] || cli.raml, reporter.bind(null, print, cli.level));
+ramllinter.lint(cli.args[0] || cli.raml, function () {
+  console.log('\nRAML Lint complete.');
+
+  if (reporter.stats()) {
+    process.exit(1);
+  }
+});

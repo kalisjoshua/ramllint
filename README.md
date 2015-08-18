@@ -53,6 +53,22 @@ ramllint('./path/to/api.raml', function (results) {
 });
 ```
 
+#### Rules
+
+The default rules are included in the `src/defaults.json` file. You can make adjustments to the test used in the rule by passing options to the `Linter` constructor.
+
+For example, if you'd like to change the rules for URL validation to permit `/sticky-wickets` and `/{stickyWicketId}`, you can do this:
+
+```js
+var Linter = require('ramllint'),
+    options = {
+        'url_lower': '^\\/([a-z]+(-[a-z]+)*|{[a-z]+([A-Z][a-z]+)*})$'
+    },
+    ramllint = new Linter(options);
+```
+
+Options need to be a JSON object with keys that match an id from the `defaults.json` file and values that are strings or string RegExp patterns.
+
 ### Command Line
 
 If you are in the same directory as your RAML document:

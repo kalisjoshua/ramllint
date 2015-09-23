@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-var exitcode = 0;
-
 var path = require('path'),
 
     cli = require('commander'),
@@ -10,6 +8,7 @@ var path = require('path'),
     Linter = require('./linter.js'),
     project = require('../package.json'),
 
+    exitcode = 0,
     ramllinter = new Linter();
 
 cli
@@ -38,8 +37,9 @@ ramllinter.lint(cli.args[0], function outputFn() {
       .forEach(function entryFormat(entry) {
         var output;
 
-        if( entry.level == 'error' )
+        if(entry.level === 'error') {
           exitcode = 1;
+        }
 
         output = '\n' +
           STATUS[entry.level](entry.level) + ' ' +
@@ -50,7 +50,8 @@ ramllinter.lint(cli.args[0], function outputFn() {
 
         console.log(output);
       });
-   process.exit( exitcode );
+
+    process.exit(exitcode);
   }
 });
 

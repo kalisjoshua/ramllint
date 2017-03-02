@@ -12,7 +12,7 @@ var path = require('path'),
     ramllinter = new Linter();
 
 cli
-  .option('-l, --level <level>', 'logging level: error|warning|info')
+  .option('-l, --level <level>', 'logging level: error|warning|info', 'error')
   .usage('[options] <api.raml>')
   .version(project.version)
   .parse(process.argv);
@@ -54,4 +54,3 @@ ramllinter.lint(cli.args[0], function outputFn() {
     process.exit(exitcode);
   }
 });
-

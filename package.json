@@ -1,11 +1,12 @@
 {
   "name": "ramllint",
-  "version": "1.3.1",
+  "version": "2.0.0",
   "description": "RAML Lint",
-  "author": "Tyler Smith <TylerSmith@quickenloans.com",
+  "author": "Joshua T Kalis <JoshKalis@quickenloans.com",
   "contributors": [
     "Joshua T Kalis <KalisJoshua@gmail.com>",
-    "Jorden Lowe <JordenLowe@quickenloans.com>"
+    "Jorden Lowe <JordenLowe@quickenloans.com>",
+    "Tyler Smith <TylerSmith@quickenloans.com>"
   ],
   "repository": {
     "type": "git",
@@ -15,7 +16,7 @@
     "url": "http://github.com/QuickenLoans/ramllint/issues"
   },
   "engines": {
-    "node": ">=0.12.3"
+    "node": ">=6.10.0"
   },
   "bin": {
     "ramllint": "./src/cli.js"
@@ -39,19 +40,18 @@
   },
   "scripts": {
     "cover": "istanbul cover --dir docs/coverage _mocha",
-    "doc": "jsdoc -c ./conf.json src/**.js",
-    "predoc": "rm -rf docs",
     "lint": "jshint src/**.js && eslint src/**.js",
-    "publish": "npm run pub:commit && npm run pub:push",
-    "prepublish": "npm run pub:doc",
-    "postpublish": "git reset --hard HEAD^",
-    "pub:commit": "git commit -m \"gh-pages update\" docs",
-    "prepub:commit": "git add -f docs/**",
-    "pub:doc": "npm run doc && npm run cover && npm run stats",
-    "pub:push": "git push upstream `git subtree split --prefix docs`:gh-pages --force",
+    "docs:code": "jsdoc -c ./conf.json src/**.js",
+    "predocs:code": "rm -rf ./docs",
+    "docs:content": "npm run docs:code && npm run cover && npm run stats",
+    "docs:publish": "npm run docs:update",
+    "postdocs:publish": "git reset --hard HEAD^",
+    "docs:update": "git add -f docs/** && git commit -m \"gh-pages update\" docs",
+    "predocs:update": "npm run docs:content",
+    "postdocs:update": "git push upstream `git subtree split --prefix docs`:gh-pages --force",
+    "docs:stats": ". ./generateStats.sh",
+    "predocs:stats": "rm -rf docs/stats",
     "quality": "npm run lint && npm test && npm run cover",
-    "stats": ". ./generateStats.sh",
-    "prestats": "rm -rf docs/stats",
     "test": "mocha",
     "vnd:coverage": "npm run vnd:codacy && npm run vnd:coveralls",
     "prevnd:coverage": "istanbul cover _mocha --report lcovonly -- -R spec",
